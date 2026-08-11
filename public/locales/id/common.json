@@ -1,0 +1,113 @@
+{
+  "app": {
+    "name": "Remote Works",
+    "tagline": "Lacak lamaran kerja remote kamu"
+  },
+  "nav": {
+    "dashboard": "Dasbor",
+    "applications": "Lamaran",
+    "analytics": "Analitik",
+    "settings": "Pengaturan",
+    "mainMenu": "Menu Utama",
+    "collapse": "Kecilkan Sidebar",
+    "expand": "Perluas Sidebar"
+  },
+  "dashboard": {
+    "welcome": "Selamat datang, {{name}}!",
+    "subtitle": "Kelola, saring, dan analisis seluruh lamaran pekerjaan remote Anda secara efisien.",
+    "summaryTitle": "Statistik Ringkasan",
+    "totalApplications": "Total Lamaran",
+    "totalSub": "Total lamaran tercatat",
+    "activeApplications": "Aktif",
+    "activeSub": "Status Applied",
+    "interviews": "Interview",
+    "interviewsSub": "Tahap wawancara",
+    "offers": "Penawaran",
+    "offersSub": "Penawaran diterima"
+  },
+  "application": {
+    "company": "Perusahaan",
+    "position": "Posisi",
+    "status": "Status",
+    "dateApplied": "Tanggal Melamar",
+    "salary": "Range Gaji",
+    "location": "Lokasi",
+    "notes": "Catatan",
+    "url": "URL Lowongan",
+    "addNew": "Tambah Lamaran",
+    "edit": "Ubah Lamaran",
+    "delete": "Hapus Lamaran",
+    "save": "Simpan",
+    "cancel": "Batal",
+    "employmentType": "Jenis Pekerjaan",
+    "skills": "Keterampilan Dibutuhkan",
+    "sourceUrl": "URL Sumber",
+    "applyUrl": "URL Lamaran",
+    "accountEmail": "Email Akun",
+    "screenshot": "Tangkapan Layar",
+    "deleteConfirmTitle": "Hapus Lamaran Kerja?",
+    "deleteConfirmMessage": "Apakah Anda yakin ingin menghapus lamaran ke \"{{company}}\" ({{position}})? Tindakan ini tidak dapat dibatalkan."
+  },
+  "status": {
+    "Applied": "Sudah Melamar",
+    "Interview": "Interview",
+    "Offer": "Dapat Tawaran",
+    "Rejected": "Ditolak",
+    "Ghosted": "Tidak Ada Respon"
+  },
+  "aging": {
+    "fresh": "Masih Baru",
+    "warning": "Perlu Follow-up",
+    "danger": "Risiko Tinggi"
+  },
+  "auth": {
+    "pinRequired": "Dashboard Terkunci",
+    "pinSubtitle": "Masukkan 4-digit PIN keamanan Anda untuk mengakses data.",
+    "invalidPin": "PIN salah, silakan coba lagi (Default: 1234)",
+    "lockDashboard": "Kunci Dashboard",
+    "unlock": "Buka Kunci"
+  },
+  "empty": {
+    "noDataTitle": "Belum Ada Lamaran Kerja",
+    "noDataMessage": "Catat dan pantau proses lamaran kerja remote Anda di sini. Mulai tambahkan lamaran pertama Anda sekarang!",
+    "noResultsTitle": "Tidak Ada Data yang Cocok",
+    "noResultsMessage": "Tidak ada lamaran yang memenuhi kriteria kata kunci pencarian atau filter yang Anda terapkan.",
+    "resetFilters": "Reset Semua Filter"
+  },
+  "filter": {
+    "searchPlaceholder": "Cari berdasarkan perusahaan atau posisi job title...",
+    "allStatus": "Semua Status",
+    "allEmail": "Semua Email Akun",
+    "allCompany": "Semua Perusahaan",
+    "allAging": "Semua Umur Lamaran",
+    "showingResults": "Menampilkan {{count}} dari {{total}} lamaran",
+    "reset": "Reset Filter"
+  },
+  "table": {
+    "title": "Daftar Lamaran Kerja",
+    "companyAndPosition": "Perusahaan & Posisi",
+    "accountEmail": "Email Akun",
+    "appliedDate": "Tgl Melamar",
+    "employmentAndRate": "Jenis & Rate",
+    "statusAndAging": "Status & Aging",
+    "actions": "Aksi",
+    "clickToSort": "Klik header kolom untuk mengurutkan data",
+    "viewScreenshot": "Lihat Screenshot"
+  },
+  "common": {
+    "add": "Tambah",
+    "search": "Cari...",
+    "filter": "Filter",
+    "sort": "Urutkan",
+    "export": "Ekspor CSV",
+    "noData": "Data tidak ditemukan",
+    "loading": "Memuat...",
+    "confirm": "Apakah kamu yakin?",
+    "yes": "Ya, Hapus",
+    "no": "Batal",
+    "darkMode": "Mode Gelap",
+    "lightMode": "Mode Terang",
+    "language": "Bahasa",
+    "shortcuts": "Pintasan Keyboard"
+  }
+}

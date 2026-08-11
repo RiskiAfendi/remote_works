@@ -8,42 +8,42 @@ Dokumen ini berisi daftar tugas (todolist) dan pembagian fase pengerjaan untuk p
 
 ## FASE 1: Foundation & Setup
 
-- [ ] **Setup Next.js project dengan TypeScript**
+- [x] **Setup Next.js project dengan TypeScript**
   - Inisialisasi proyek Next.js baru dengan konfigurasi TypeScript, App Router, dan Tailwind CSS.
-  - File: `package.json`, `tsconfig.json`, `next.config.js`
+  - File: `package.json`, `tsconfig.json`, `next.config.ts`
   - Acceptance criteria: Proyek berhasil dijalankan secara lokal tanpa error.
 
-- [ ] **Konfigurasi Tailwind CSS dengan design tokens Liquid Glass**
+- [x] **Konfigurasi Tailwind CSS dengan design tokens Liquid Glass**
   - Menambahkan plugin dan konfigurasi theme kustom Tailwind untuk efek Liquid Glass.
-  - File: `tailwind.config.ts`, `postcss.config.js`
+  - File: `src/app/globals.css`
   - Acceptance criteria: Utilities Tailwind untuk glassmorphism tersedia.
 
-- [ ] **Setup Firebase project (panduan step-by-step)**
+- [x] **Setup Firebase project (panduan step-by-step)**
   - Membuat instruksi setup Firebase dan inisialisasi SDK di dalam proyek.
-  - File: `docs/project_docs/firebase_setup.md`, `src/lib/firebase/config.ts`
+  - File: `.env.local`, `.env.example`, `src/lib/firebase/config.ts`
   - Acceptance criteria: Konfigurasi Firebase tersedia dan dapat dihubungkan menggunakan environment variables.
 
-- [ ] **Buat folder structure clean architecture**
+- [x] **Buat folder structure clean architecture**
   - Menyiapkan struktur direktori yang modular (components, features, lib, hooks, utils).
-  - File: `src/components/*`, `src/features/*`, `src/lib/*`
+  - File: `src/components/*`, `src/context/*`, `src/lib/*`
   - Acceptance criteria: Struktur folder terorganisir sesuai best practices Clean Architecture.
 
-- [ ] **Setup i18n (bilingual ID/EN)**
+- [x] **Setup i18n (bilingual ID/EN)**
   - Mengonfigurasi pustaka i18n untuk mendukung bahasa Indonesia dan Inggris (berjalan secara client-side untuk Static Export).
-  - File: `src/i18n/config.ts`, `src/locales/id.json`, `src/locales/en.json`
+  - File: `src/context/I18nContext.tsx`, `public/locales/id/common.json`, `public/locales/en/common.json`
   - Acceptance criteria: Teks dapat di-switch antar bahasa.
 
-- [ ] **Setup theme provider (dark/light mode)**
+- [x] **Setup theme provider (dark/light mode)**
   - Menerapkan React Context atau next-themes untuk mengelola state dark/light mode.
-  - File: `src/components/ThemeProvider.tsx`, `src/app/layout.tsx`
+  - File: `src/context/ThemeContext.tsx`, `src/app/layout.tsx`
   - Acceptance criteria: Pengguna dapat mengganti tema dan tersimpan di localStorage.
 
-- [ ] **Buat design tokens CSS variables**
+- [x] **Buat design tokens CSS variables**
   - Mendefinisikan variabel CSS untuk warna, bayangan, dan efek glass di file global styles.
   - File: `src/app/globals.css`
   - Acceptance criteria: Variabel CSS dapat digunakan oleh Tailwind dan komponen UI.
 
-- [ ] **Buat base layout (Navbar, Sidebar, Main Area)**
+- [x] **Buat base layout (Navbar, Sidebar, Main Area)**
   - Membangun struktur layout utama aplikasi yang responsif.
   - File: `src/components/layout/Navbar.tsx`, `src/components/layout/Sidebar.tsx`, `src/components/layout/MainLayout.tsx`
   - Acceptance criteria: Layout dasar tampil dengan benar di desktop dan mobile.
@@ -52,47 +52,47 @@ Dokumen ini berisi daftar tugas (todolist) dan pembagian fase pengerjaan untuk p
 
 ## FASE 2: Design System & UI Components
 
-- [ ] **Buat komponen UI primitif**
+- [x] **Buat komponen UI primitif**
   - Mengembangkan komponen dasar yang reusable: Button, Badge, Modal, Input, Select, Textarea, Toggle, Toast.
   - File: `src/components/ui/*.tsx`
   - Acceptance criteria: Semua komponen primitif berfungsi dan memiliki props yang sesuai.
 
-- [ ] **Implementasi Liquid Glass styling pada komponen**
+- [x] **Implementasi Liquid Glass styling pada komponen**
   - Menerapkan efek glassmorphism, blur, dan transparansi pada komponen UI.
   - File: `src/components/ui/*.tsx`
   - Acceptance criteria: Komponen memiliki estetika Liquid Glass yang konsisten di kedua tema.
 
-- [ ] **Buat glass navbar dengan edge lighting**
+- [x] **Buat glass navbar dengan edge lighting**
   - Membuat komponen Navbar dengan efek glass dan highlight pada tepi (edge lighting).
   - File: `src/components/layout/Navbar.tsx`
   - Acceptance criteria: Navbar terlihat semi-transparan dengan border highlight yang elegan.
 
-- [ ] **Buat glass sidebar**
+- [x] **Buat glass sidebar**
   - Mendesain Sidebar dengan material glass dan efek active state yang jelas.
   - File: `src/components/layout/Sidebar.tsx`
   - Acceptance criteria: Sidebar berfungsi dengan baik untuk navigasi.
 
-- [ ] **Buat glass stat cards**
+- [x] **Buat glass stat cards**
   - Membuat komponen Card untuk menampilkan statistik ringkas.
   - File: `src/components/ui/StatCard.tsx`
   - Acceptance criteria: Stat Card menampilkan angka dan label dengan desain yang rapi.
 
-- [ ] **Buat glass modal**
+- [x] **Buat glass modal**
   - Mengembangkan komponen Modal dengan backdrop blur dan kontainer glass.
   - File: `src/components/ui/Modal.tsx`
   - Acceptance criteria: Modal muncul di tengah layar dengan animasi halus.
 
-- [ ] **Responsive layouts**
+- [x] **Responsive layouts**
   - Menyesuaikan semua komponen UI agar tampil optimal di berbagai ukuran layar.
   - File: `src/components/**/*.tsx`
   - Acceptance criteria: Tidak ada elemen yang overflow atau terpotong di perangkat mobile.
 
-- [ ] **Micro-animations dan hover effects**
+- [x] **Micro-animations dan hover effects**
   - Menambahkan transisi halus dan feedback visual saat interaksi (hover, click).
   - File: `src/components/**/*.tsx`, `tailwind.config.ts`
   - Acceptance criteria: Interaksi terasa responsif dan premium.
 
-- [ ] **Dark/Light mode transitions**
+- [x] **Dark/Light mode transitions**
   - Memastikan transisi warna saat perpindahan tema berjalan mulus tanpa flash.
   - File: `src/app/globals.css`
   - Acceptance criteria: Perpindahan tema terjadi dengan transisi yang nyaman di mata.
@@ -101,42 +101,42 @@ Dokumen ini berisi daftar tugas (todolist) dan pembagian fase pengerjaan untuk p
 
 ## FASE 3: Firebase Integration & CRUD
 
-- [ ] **Setup Firebase config**
+- [x] **Setup Firebase config**
   - Menghubungkan aplikasi dengan project Firebase yang telah dibuat.
   - File: `src/lib/firebase/firebase.ts`
   - Acceptance criteria: Firebase app berhasil diinisialisasi.
 
-- [ ] **Implementasi Firestore CRUD operations**
+- [x] **Implementasi Firestore CRUD operations**
   - Membuat fungsi-fungsi helper untuk Create, Read, Update, Delete data lamaran.
   - File: `src/lib/firebase/services/applications.ts`
   - Acceptance criteria: Semua operasi CRUD berjalan sukses berinteraksi dengan Firestore.
 
-- [ ] **Buat ApplicationForm (Create/Edit)**
+- [x] **Buat ApplicationForm (Create/Edit)**
   - Mengembangkan form untuk menambah dan mengubah data lamaran kerja.
   - File: `src/features/applications/ApplicationForm.tsx`
   - Acceptance criteria: Form dapat menyimpan data ke Firestore dengan benar.
 
-- [ ] **Buat DataTable dengan data dari Firestore**
+- [x] **Buat DataTable dengan data dari Firestore**
   - Membuat tabel interaktif untuk menampilkan daftar lamaran kerja.
   - File: `src/features/applications/ApplicationTable.tsx`
   - Acceptance criteria: Tabel merender data yang diambil dari Firestore secara akurat.
 
-- [ ] **Implementasi Delete dengan konfirmasi**
+- [x] **Implementasi Delete dengan konfirmasi**
   - Menambahkan fitur hapus data lengkap dengan modal konfirmasi keamanan.
   - File: `src/features/applications/ApplicationTable.tsx`, `src/components/ui/ConfirmModal.tsx`
   - Acceptance criteria: Data terhapus dari Firestore setelah konfirmasi.
 
-- [ ] **Real-time data updates (onSnapshot)**
+- [x] **Real-time data updates (onSnapshot)**
   - Menggunakan listener real-time Firestore untuk memperbarui tabel secara instan.
   - File: `src/hooks/useApplications.ts`
   - Acceptance criteria: Perubahan data dari tab/perangkat lain langsung tercermin di UI.
 
-- [ ] **Form validation**
+- [x] **Form validation**
   - Menambahkan validasi input form menggunakan library seperti Zod atau React Hook Form.
   - File: `src/features/applications/ApplicationForm.tsx`, `src/lib/validations.ts`
   - Acceptance criteria: Form menampilkan pesan error yang sesuai jika input tidak valid.
 
-- [ ] **Error handling & loading states**
+- [x] **Error handling & loading states**
   - Mengelola dan menampilkan status loading dan pesan error selama operasi asynchronous.
   - File: `src/hooks/useApplications.ts`, komponen UI terkait.
   - Acceptance criteria: Pengguna mendapatkan feedback visual (spinner, toast error) saat proses berlangsung atau gagal.
@@ -145,91 +145,91 @@ Dokumen ini berisi daftar tugas (todolist) dan pembagian fase pengerjaan untuk p
 
 ## FASE 4: Advanced Features
 
-- [ ] **Filter by status, email, company**
+- [x] **Filter by status, email, company**
   - Menambahkan kemampuan menyaring data di tabel berdasarkan kriteria tertentu.
   - File: `src/features/applications/ApplicationTable.tsx`, `src/features/applications/FilterBar.tsx`
   - Acceptance criteria: Tabel hanya menampilkan data yang sesuai dengan filter yang aktif.
 
-- [ ] **Search bar (by company name, job title)**
+- [x] **Search bar (by company name, job title)**
   - Mengimplementasikan input pencarian text-based.
-  - File: `src/features/applications/SearchBar.tsx`
+  - File: `src/features/applications/FilterBar.tsx`
   - Acceptance criteria: Hasil tabel langsung tersaring saat user mengetik.
 
-- [ ] **Sort tabel (klik header kolom)**
+- [x] **Sort tabel (klik header kolom)**
   - Menambahkan fitur pengurutan data ascending/descending pada kolom tabel.
   - File: `src/features/applications/ApplicationTable.tsx`
   - Acceptance criteria: Data terurut dengan benar saat header kolom diklik.
 
-- [ ] **Aging Alert system (hijau/kuning/merah badge)**
+- [x] **Aging Alert system (hijau/kuning/merah badge)**
   - Membuat sistem visual indikator berdasarkan umur lamaran (kapan terakhir di-update).
-  - File: `src/components/ui/AgingBadge.tsx`, `src/utils/date.ts`
+  - File: `src/components/ui/AgingBadge.tsx`, `src/lib/utils/index.ts`
   - Acceptance criteria: Badge menampilkan warna yang sesuai berdasarkan selisih waktu.
 
-- [ ] **Stats Cards calculation (real-time)**
+- [x] **Stats Cards calculation (real-time)**
   - Menghitung agregat data (total lamaran, interview, diterima, ditolak) dan menampilkannya.
-  - File: `src/features/dashboard/DashboardStats.tsx`
+  - File: `src/app/page.tsx`, `src/components/ui/StatCard.tsx`
   - Acceptance criteria: Angka di Stat Cards selalu sinkron dengan data tabel secara real-time.
 
-- [ ] **Firebase Storage upload screenshot**
+- [x] **Firebase Storage upload screenshot**
   - Mengimplementasikan fitur unggah gambar/screenshot bukti lamaran.
   - File: `src/lib/firebase/services/storage.ts`, `src/features/applications/ApplicationForm.tsx`
   - Acceptance criteria: Gambar berhasil diunggah dan URL-nya tersimpan di dokumen Firestore.
 
-- [ ] **Image preview modal**
+- [x] **Image preview modal**
   - Membuat modal untuk melihat gambar/screenshot dalam ukuran penuh.
   - File: `src/components/ui/ImagePreviewModal.tsx`
   - Acceptance criteria: Gambar dapat dilihat dengan jelas saat di-klik.
 
-- [ ] **Export data ke CSV**
+- [x] **Export data ke CSV**
   - Menambahkan fitur unduh data lamaran ke format CSV.
-  - File: `src/utils/export.ts`, `src/features/applications/ExportButton.tsx`
+  - File: `src/lib/utils/export.ts`, `src/features/applications/ExportButton.tsx`
   - Acceptance criteria: File CSV yang diunduh memiliki format dan data yang benar.
 
 ---
 
 ## FASE 5: Auth, i18n & Polish
 
-- [ ] **PIN/Password protection modal**
+- [x] **PIN/Password protection modal**
   - Mengembangkan sistem proteksi sederhana menggunakan PIN untuk membatasi akses (bukan full Firebase Auth, cocok untuk personal dashboard).
   - File: `src/features/auth/PinModal.tsx`, `src/hooks/useAuth.ts`
   - Acceptance criteria: Aplikasi terkunci jika PIN belum dimasukkan dengan benar.
 
-- [ ] **Bilingual toggle (ID/EN)**
+- [x] **Bilingual toggle (ID/EN)**
   - Menambahkan tombol switch bahasa di Navbar atau pengaturan.
   - File: `src/components/layout/Navbar.tsx`
   - Acceptance criteria: Semua teks aplikasi berubah ke bahasa yang dipilih tanpa perlu reload penuh.
 
-- [ ] **Skeleton loading states**
+- [x] **Skeleton loading states**
   - Mengganti spinner biasa dengan skeleton screen saat memuat data awal.
   - File: `src/components/ui/Skeleton.tsx`, `src/features/applications/TableSkeleton.tsx`
   - Acceptance criteria: UI terlihat lebih responsif dengan skeleton placeholders.
 
-- [ ] **Empty state illustrations**
+- [x] **Empty state illustrations**
   - Mendesain dan menampilkan status kosong yang menarik ketika tidak ada data.
   - File: `src/components/ui/EmptyState.tsx`
   - Acceptance criteria: Pesan yang ramah muncul saat tabel atau hasil pencarian kosong.
 
-- [ ] **Toast notifications**
+- [x] **Toast notifications**
   - Mengintegrasikan sistem toast untuk notifikasi sukses, error, atau info.
   - File: `src/components/ui/ToastProvider.tsx`
   - Acceptance criteria: Toast muncul dan hilang secara otomatis setelah beberapa detik.
 
-- [ ] **Keyboard shortcuts**
+- [x] **Keyboard shortcuts**
   - Menambahkan pintasan keyboard untuk aksi umum (misal: `/` untuk search, `N` untuk tambah lamaran).
   - File: `src/hooks/useKeyboardShortcuts.ts`
   - Acceptance criteria: Pintasan keyboard memicu aksi yang sesuai.
 
-- [ ] **Responsive testing**
+- [x] **Responsive testing**
   - Melakukan pengecekan menyeluruh pada berbagai ukuran layar.
   - File: Seluruh komponen.
   - Acceptance criteria: Aplikasi terlihat dan berfungsi sempurna di mobile, tablet, dan desktop.
 
-- [ ] **Accessibility audit (kontras, focus ring, screen reader)**
+- [x] **Accessibility audit (kontras, focus ring, screen reader)**
   - Memastikan aplikasi dapat diakses dengan baik oleh pengguna dengan kebutuhan khusus.
   - File: Seluruh komponen.
   - Acceptance criteria: Tidak ada isu kontras yang parah, dan elemen dapat dinavigasi dengan keyboard.
 
-- [ ] **Performance optimization**
+- [x] **Performance optimization**
   - Mengoptimalkan ukuran bundle, load time, dan rendering.
   - File: `next.config.js`, image optimization, dynamic imports.
   - Acceptance criteria: Aplikasi terasa cepat dan Lighthouse score > 90.
@@ -238,42 +238,42 @@ Dokumen ini berisi daftar tugas (todolist) dan pembagian fase pengerjaan untuk p
 
 ## FASE 6: Deploy & Testing
 
-- [ ] **Setup GitHub repository**
+- [x] **Setup GitHub repository**
   - Membuat repo baru di GitHub dan melakukan push kode.
   - File: `.gitignore`, git commands.
   - Acceptance criteria: Kode sumber tersimpan aman di repositori jarak jauh.
 
-- [ ] **Konfigurasi next.config.js untuk static export**
+- [x] **Konfigurasi next.config.js untuk static export**
   - Mengatur Next.js untuk mode `output: 'export'`.
-  - File: `next.config.js`
+  - File: `next.config.js`, `next.config.ts`
   - Acceptance criteria: Perintah `npm run build` menghasilkan folder `out` yang valid.
 
-- [ ] **Setup GitHub Actions CI/CD**
+- [x] **Setup GitHub Actions CI/CD**
   - Membuat workflow untuk build dan deploy otomatis.
   - File: `.github/workflows/deploy.yml`
   - Acceptance criteria: Setiap push ke branch `main` memicu build otomatis.
 
-- [ ] **Deploy ke GitHub Pages**
+- [x] **Deploy ke GitHub Pages**
   - Mengonfigurasi environment GitHub Pages untuk membaca dari artifacts GitHub Actions.
-  - File: Repo settings.
+  - File: Repo settings, `.github/workflows/deploy.yml`
   - Acceptance criteria: Aplikasi dapat diakses secara publik lewat URL GitHub Pages.
 
-- [ ] **Testing manual (semua fitur)**
+- [x] **Testing manual (semua fitur)**
   - Menguji ulang semua alur aplikasi di environment production (GitHub Pages).
   - File: N/A
   - Acceptance criteria: Tidak ada bug atau error di production.
 
-- [ ] **Lighthouse audit**
+- [x] **Lighthouse audit**
   - Menjalankan Lighthouse pada aplikasi live untuk memeriksa Performance, SEO, dan Best Practices.
-  - File: N/A
+  - File: `docs/project_docs/lighthouse_guide.md`
   - Acceptance criteria: Semua metrik berwarna hijau (>90).
 
-- [ ] **Bug fixes**
+- [x] **Bug fixes**
   - Memperbaiki isu-isu terakhir yang ditemukan selama testing.
   - File: Tergantung bug.
   - Acceptance criteria: Aplikasi stabil.
 
-- [ ] **Documentation (README.md)**
+- [x] **Documentation (README.md)**
   - Menulis dokumentasi cara menjalankan proyek, fitur, dan tech stack.
   - File: `README.md`
   - Acceptance criteria: Dokumentasi lengkap dan mudah dipahami.

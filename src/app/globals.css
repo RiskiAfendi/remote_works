@@ -1,26 +1,388 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ============================================
+   REMOTE WORKS - Global Design System
+   Premium Liquid Glass + Ocean Breeze Theme
+   ============================================ */
 
+
+/* ============================================
+   Tailwind v4 Theme Configuration
+   ============================================ */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Font families */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Outfit', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+
+  /* Warna primer Ocean Breeze */
+  --color-accent-50: #F0F9FF;
+  --color-accent-100: #E0F2FE;
+  --color-accent-200: #BAE6FD;
+  --color-accent-300: #7DD3FC;
+  --color-accent-400: #38BDF8;
+  --color-accent-500: #0EA5E9;
+  --color-accent-600: #0284C7;
+  --color-accent-700: #0369A1;
+  --color-accent-800: #075985;
+  --color-accent-900: #0C4A6E;
+
+  /* Warna status lamaran */
+  --color-status-applied: #60A5FA;
+  --color-status-interview: #FBBF24;
+  --color-status-offer: #34D399;
+  --color-status-rejected: #F87171;
+  --color-status-ghosted: #9CA3AF;
+
+  /* Warna aging alert */
+  --color-aging-fresh: #34D399;
+  --color-aging-warning: #FBBF24;
+  --color-aging-danger: #F87171;
+
+  /* Border radius kustom */
+  --radius-glass: 16px;
+  --radius-button: 12px;
+  --radius-input: 10px;
+  --radius-badge: 999px;
+  --radius-modal: 20px;
+  --radius-card: 16px;
+
+  /* Animasi kustom */
+  --animate-fade-in: fade-in 0.5s ease-out;
+  --animate-slide-up: slide-up 0.3s ease-out;
+  --animate-slide-in-left: slide-in-left 0.3s ease-out;
+  --animate-glass-shimmer: glass-shimmer 1.5s infinite;
+
+  /* Easing curves */
+  --ease-glass: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
+
+  /* Spacing kustom */
+  --spacing-navbar: 64px;
+  --spacing-sidebar: 260px;
+  --spacing-sidebar-collapsed: 72px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Keyframes untuk animasi */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { transform: translateY(10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slide-in-left {
+  from { transform: translateX(-20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes glass-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@keyframes modal-enter {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* ============================================
+   CSS Custom Properties (Design Tokens)
+   Digunakan oleh komponen Liquid Glass
+   ============================================ */
+
+/* --- Dark Mode (Default) --- */
+:root,
+:root[data-theme="dark"] {
+  /* Background */
+  --bg-base: #0b1020;
+  --bg-elevated: rgba(17, 24, 39, 0.72);
+  --bg-solid-card: rgba(15, 23, 42, 0.88);
+
+  /* Glass Surfaces - Ocean Breeze tinted */
+  --glass-surface: rgba(127, 205, 255, 0.08);
+  --glass-surface-strong: rgba(127, 205, 255, 0.14);
+  --glass-border: rgba(127, 205, 255, 0.18);
+  --glass-border-strong: rgba(127, 205, 255, 0.28);
+
+  /* Accent Colors */
+  --accent-primary: #7FCDFF;
+  --accent-secondary: #DFF7FF;
+  --accent-hover: #9DD8FF;
+  --accent-active: #5BBFFF;
+
+  /* Typography */
+  --text-primary: rgba(255, 255, 255, 0.96);
+  --text-secondary: rgba(255, 255, 255, 0.72);
+  --text-muted: rgba(255, 255, 255, 0.48);
+
+  /* Shadows */
+  --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.3);
+  --shadow-glass-hover: 0 12px 40px rgba(127, 205, 255, 0.15);
+  --shadow-elevated: 0 24px 48px rgba(0, 0, 0, 0.4);
+
+  /* Glass properties */
+  --glass-blur: 14px;
+  --glass-saturate: 180%;
+
+  /* Edge Lighting */
+  --edge-top: rgba(255, 255, 255, 0.15);
+  --edge-left: rgba(255, 255, 255, 0.05);
+  --edge-bottom: rgba(0, 0, 0, 0.3);
+
+  /* Inner highlight */
+  --inner-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* --- Light Mode --- */
+:root[data-theme="light"] {
+  /* Background */
+  --bg-base: #F0F9FF;
+  --bg-elevated: rgba(255, 255, 255, 0.85);
+  --bg-solid-card: rgba(255, 255, 255, 0.92);
+
+  /* Glass Surfaces */
+  --glass-surface: rgba(127, 205, 255, 0.12);
+  --glass-surface-strong: rgba(127, 205, 255, 0.20);
+  --glass-border: rgba(127, 205, 255, 0.22);
+  --glass-border-strong: rgba(127, 205, 255, 0.35);
+
+  /* Accent Colors */
+  --accent-primary: #0284C7;
+  --accent-secondary: #0EA5E9;
+  --accent-hover: #0369A1;
+  --accent-active: #0EA5E9;
+
+  /* Typography */
+  --text-primary: rgba(15, 23, 42, 0.95);
+  --text-secondary: rgba(15, 23, 42, 0.72);
+  --text-muted: rgba(15, 23, 42, 0.48);
+
+  /* Shadows */
+  --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.08);
+  --shadow-glass-hover: 0 12px 40px rgba(14, 165, 233, 0.12);
+  --shadow-elevated: 0 24px 48px rgba(0, 0, 0, 0.12);
+
+  /* Glass properties */
+  --glass-blur: 14px;
+  --glass-saturate: 180%;
+
+  /* Edge Lighting */
+  --edge-top: rgba(255, 255, 255, 0.8);
+  --edge-left: rgba(255, 255, 255, 0.4);
+  --edge-bottom: rgba(0, 0, 0, 0.05);
+
+  /* Inner highlight */
+  --inner-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+/* ============================================
+   Base Styles
+   ============================================ */
+
+/* Transisi halus saat ganti tema */
+*,
+*::before,
+*::after {
+  transition: background-color 300ms ease, border-color 300ms ease, color 300ms ease;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Heading menggunakan font Outfit */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+/* ============================================
+   Liquid Glass Utility Classes
+   ============================================ */
+
+/* Panel glass dasar */
+.glass-panel {
+  background: var(--glass-surface);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  border: 1px solid var(--glass-border);
+  border-top-color: var(--edge-top);
+  border-left-color: var(--edge-left);
+  box-shadow: var(--inner-highlight), var(--shadow-glass);
+  border-radius: var(--radius-glass);
+  transition: all 0.22s var(--ease-glass);
+}
+
+.glass-panel:hover {
+  background: var(--glass-surface-strong);
+  border-color: var(--glass-border-strong);
+  box-shadow: var(--inner-highlight), var(--shadow-glass-hover);
+  transform: translateY(-2px);
+}
+
+/* Glass navbar */
+.glass-navbar {
+  background: var(--glass-surface);
+  backdrop-filter: blur(20px) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(20px) saturate(var(--glass-saturate));
+  border-bottom: 1px solid var(--glass-border);
+  box-shadow: var(--inner-highlight), 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+/* Glass sidebar */
+.glass-sidebar {
+  background: var(--glass-surface);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  border-right: 1px solid var(--glass-border);
+  box-shadow: var(--inner-highlight);
+}
+
+/* Glass card tanpa hover lift (untuk stat cards dll) */
+.glass-card {
+  background: var(--glass-surface);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  border: 1px solid var(--glass-border);
+  border-top-color: var(--edge-top);
+  box-shadow: var(--inner-highlight), var(--shadow-glass);
+  border-radius: var(--radius-card);
+}
+
+/* Solid card untuk area data utama */
+.solid-card {
+  background: var(--bg-solid-card);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-glass);
+}
+
+/* Form element semi-solid glass background */
+.glass-input {
+  background: var(--bg-elevated);
+  backdrop-filter: blur(10px) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(10px) saturate(var(--glass-saturate));
+  border: 1px solid var(--glass-border);
+  border-top-color: var(--edge-top);
+  color: var(--text-primary);
+  border-radius: var(--radius-input);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.glass-input:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(127, 205, 255, 0.25), var(--inner-highlight);
+  background: var(--bg-solid-card);
+}
+
+.glass-input::placeholder {
+  color: var(--text-muted);
+}
+
+
+/* ============================================
+   Interactive States
+   ============================================ */
+
+/* Hover lift effect */
+.hover-lift {
+  transition: transform 0.22s var(--ease-glass), box-shadow 0.22s var(--ease-glass);
+}
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glass-hover);
+}
+
+/* Active press effect */
+.active-press:active {
+  transform: scale(0.97);
+  transition: transform 0.1s ease;
+}
+
+/* Glass glow saat aktif */
+.glass-glow {
+  box-shadow: 0 0 16px var(--glass-surface-strong);
+}
+
+/* Focus ring untuk aksesibilitas */
+.focus-ring:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+/* ============================================
+   Scrollbar Styling
+   ============================================ */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--glass-border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--glass-border-strong);
+}
+
+/* ============================================
+   Accessibility
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* High contrast mode fallback */
+@media (prefers-contrast: more) {
+  .glass-panel,
+  .glass-navbar,
+  .glass-sidebar,
+  .glass-card {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: var(--bg-solid-card);
+    border: 2px solid var(--text-primary);
+  }
+}
+
+/* ============================================
+   Noise texture overlay (pseudo-element)
+   Menambah kesan fisik pada glass
+   ============================================ */
+.glass-noise::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0.03;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
 }

@@ -1,0 +1,113 @@
+{
+  "app": {
+    "name": "Remote Works",
+    "tagline": "Track your remote job applications"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "applications": "Applications",
+    "analytics": "Analytics",
+    "settings": "Settings",
+    "mainMenu": "Main Menu",
+    "collapse": "Collapse Sidebar",
+    "expand": "Expand Sidebar"
+  },
+  "dashboard": {
+    "welcome": "Welcome back, {{name}}!",
+    "subtitle": "Manage, filter, and analyze all your remote job applications efficiently.",
+    "summaryTitle": "Summary Statistics",
+    "totalApplications": "Total Applications",
+    "totalSub": "Total recorded applications",
+    "activeApplications": "Active",
+    "activeSub": "Status Applied",
+    "interviews": "Interviews",
+    "interviewsSub": "Interview stage",
+    "offers": "Offers",
+    "offersSub": "Offers received"
+  },
+  "application": {
+    "company": "Company",
+    "position": "Position",
+    "status": "Status",
+    "dateApplied": "Date Applied",
+    "salary": "Salary Rate",
+    "location": "Location",
+    "notes": "Notes",
+    "url": "Job URL",
+    "addNew": "Add Application",
+    "edit": "Edit Application",
+    "delete": "Delete Application",
+    "save": "Save",
+    "cancel": "Cancel",
+    "employmentType": "Employment Type",
+    "skills": "Required Skills",
+    "sourceUrl": "Source URL",
+    "applyUrl": "Application URL",
+    "accountEmail": "Account Email",
+    "screenshot": "Screenshot",
+    "deleteConfirmTitle": "Delete Job Application?",
+    "deleteConfirmMessage": "Are you sure you want to delete application to \"{{company}}\" ({{position}})? This action cannot be undone."
+  },
+  "status": {
+    "Applied": "Applied",
+    "Interview": "Interview",
+    "Offer": "Offer",
+    "Rejected": "Rejected",
+    "Ghosted": "Ghosted"
+  },
+  "aging": {
+    "fresh": "Fresh",
+    "warning": "Needs Follow-up",
+    "danger": "High Risk"
+  },
+  "auth": {
+    "pinRequired": "Dashboard Locked",
+    "pinSubtitle": "Enter your 4-digit security PIN to access the dashboard data.",
+    "invalidPin": "Incorrect PIN. Default: 1234",
+    "lockDashboard": "Lock Dashboard",
+    "unlock": "Unlock"
+  },
+  "empty": {
+    "noDataTitle": "No Job Applications Yet",
+    "noDataMessage": "Track and monitor your remote job applications here. Start by adding your first application!",
+    "noResultsTitle": "No Matching Applications Found",
+    "noResultsMessage": "No job applications match your current search query or applied filters.",
+    "resetFilters": "Reset All Filters"
+  },
+  "filter": {
+    "searchPlaceholder": "Search by company name or job title...",
+    "allStatus": "All Statuses",
+    "allEmail": "All Account Emails",
+    "allCompany": "All Companies",
+    "allAging": "All Application Aging",
+    "showingResults": "Showing {{count}} of {{total}} applications",
+    "reset": "Reset Filters"
+  },
+  "table": {
+    "title": "Applications List",
+    "companyAndPosition": "Company & Position",
+    "accountEmail": "Account Email",
+    "appliedDate": "Date Applied",
+    "employmentAndRate": "Type & Rate",
+    "statusAndAging": "Status & Aging",
+    "actions": "Actions",
+    "clickToSort": "Click column headers to sort data",
+    "viewScreenshot": "View Screenshot"
+  },
+  "common": {
+    "add": "Add New",
+    "search": "Search...",
+    "filter": "Filter",
+    "sort": "Sort",
+    "export": "Export CSV",
+    "noData": "No data found",
+    "loading": "Loading...",
+    "confirm": "Are you sure?",
+    "yes": "Yes, Delete",
+    "no": "Cancel",
+    "darkMode": "Dark Mode",
+    "lightMode": "Light Mode",
+    "language": "Language",
+    "shortcuts": "Keyboard Shortcuts"
+  }
+}
