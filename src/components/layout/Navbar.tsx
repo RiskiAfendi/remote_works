@@ -33,7 +33,7 @@ export default function Navbar({
   const isDark = mounted ? theme === 'dark' : true;
 
   return (
-    <nav className="glass-navbar fixed top-0 left-0 right-0 z-50 h-16 flex items-center justify-between px-4 md:px-6 border-b border-[var(--glass-border)] shadow-[var(--inner-highlight),0_4px_20px_rgba(0,0,0,0.1)]">
+    <nav className="glass-navbar fixed top-0 left-0 right-0 z-30 h-16 flex items-center justify-between px-4 md:px-6 border-b border-[var(--glass-border)] shadow-[var(--inner-highlight),0_4px_20px_rgba(0,0,0,0.1)]">
       {/* Edge Lighting Highlight Bar */}
       <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[var(--edge-top)] to-transparent pointer-events-none" />
 

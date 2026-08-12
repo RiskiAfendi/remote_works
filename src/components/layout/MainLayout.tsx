@@ -7,6 +7,7 @@ import { ToastProvider } from '@/components/ui/Toast';
 import { PinModal } from '@/features/auth/PinModal';
 import { ShortcutsModal } from '@/components/ui/ShortcutsModal';
 import { useAuth } from '@/hooks/useAuth';
+import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
 import { cn } from '@/lib/utils';
 
 interface MainLayoutProps {
@@ -24,6 +25,21 @@ export default function MainLayout({ children, onOpenNewApplicationModal }: Main
   const [isShortcutsOpen, setIsShortcutsOpen] = useState(false);
 
   const { isLocked, unlock, lock } = useAuth();
+
+  // Register Global Keyboard Shortcuts across all pages
+  useKeyboardShortcuts({
+    disabled: isLocked,
+    onToggleLock: () => {
+      lock();
+    },
+    onToggleHelp: () => {
+      setIsShortcutsOpen((prev) => !prev);
+    },
+    onEscape: () => {
+      if (isShortcutsOpen) setIsShortcutsOpen(false);
+      if (sidebarOpen) setSidebarOpen(false);
+    },
+  });
 
   const handleToggleSidebar = useCallback(() => {
     setSidebarOpen((prev) => !prev);
@@ -47,12 +63,13 @@ export default function MainLayout({ children, onOpenNewApplicationModal }: Main
 
   return (
     <ToastProvider>
-      <div className="min-h-screen bg-[var(--bg-base)] text-[var(--text-primary)]">
-        {/* Fullscreen PIN Lock Modal */}
-        <PinModal isOpen={isLocked} onUnlock={unlock} />
-
-        {/* Keyboard Shortcuts Guide Modal */}
-        <ShortcutsModal isOpen={isShortcutsOpen} onClose={handleCloseShortcuts} />
+      <div className="relative min-h-screen bg-[var(--bg-base)] text-[var(--text-primary)]">
+        {/* Ambient Liquid Glass Mesh Background Orbs */}
+        <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+          <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-sky-300/30 dark:bg-sky-500/10 blur-3xl animate-pulse" />
+          <div className="absolute top-1/3 -right-32 w-[30rem] h-[30rem] rounded-full bg-blue-300/25 dark:bg-blue-600/10 blur-3xl" />
+          <div className="absolute -bottom-32 left-1/3 w-[28rem] h-[28rem] rounded-full bg-cyan-300/20 dark:bg-cyan-500/10 blur-3xl" />
+        </div>
 
         {/* Navbar */}
         <Navbar
@@ -81,6 +98,12 @@ export default function MainLayout({ children, onOpenNewApplicationModal }: Main
             {children}
           </div>
         </main>
+
+        {/* Keyboard Shortcuts Guide Modal */}
+        <ShortcutsModal isOpen={isShortcutsOpen} onClose={handleCloseShortcuts} />
+
+        {/* Fullscreen PIN Lock Modal */}
+        <PinModal isOpen={isLocked} onUnlock={unlock} />
       </div>
     </ToastProvider>
   );

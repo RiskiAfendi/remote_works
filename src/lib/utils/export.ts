@@ -13,8 +13,12 @@ function escapeCSVValue(val: unknown): string {
 /**
  * Exports application list to a CSV file downloadable in browser
  */
-export function exportApplicationsToCSV(applications: Application[], filename?: string): void {
-  const headers = [
+export function exportApplicationsToCSV(applications: Application[], filename?: string, locale?: string): void {
+  const headers = locale === 'en' ? [
+    'Company Name', 'Position (Job Title)', 'Status', 'Account Email',
+    'Applied Date', 'Employment Type', 'Salary Rate', 'Skills Required',
+    'Source URL', 'Apply URL', 'Notes', 'Screenshot URL', 'Created Date'
+  ] : [
     'Nama Perusahaan',
     'Posisi (Job Title)',
     'Status',

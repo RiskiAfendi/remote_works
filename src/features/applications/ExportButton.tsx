@@ -5,6 +5,7 @@ import { Download } from 'lucide-react';
 import { Button, useToast } from '@/components/ui';
 import { Application } from '@/lib/types';
 import { exportApplicationsToCSV } from '@/lib/utils/export';
+import { useI18n } from '@/context/I18nContext';
 
 export interface ExportButtonProps {
   applications: Application[];
@@ -20,22 +21,23 @@ export function ExportButton({
   variant = 'secondary',
 }: ExportButtonProps) {
   const toast = useToast();
+  const { t, locale } = useI18n();
 
   const handleExport = () => {
     if (!applications || applications.length === 0) {
-      toast.error('Tidak ada data lamaran untuk diexport.', 'Export Gagal');
+      toast.error(t('export.noDataError'), t('export.noDataTitle'));
       return;
     }
 
     try {
-      exportApplicationsToCSV(applications);
+      exportApplicationsToCSV(applications, undefined, locale);
       toast.success(
-        `Berhasil mengeksport ${applications.length} data lamaran ke CSV.`,
-        'Export Berhasil'
+        t('export.successToast', { count: applications.length }),
+        t('export.successTitle')
       );
     } catch (err: unknown) {
       console.error('Failed to export CSV:', err);
-      toast.error('Gagal membuat file CSV.', 'Export Gagal');
+      toast.error(t('export.failToast'), t('export.noDataTitle'));
     }
   };
 
@@ -47,9 +49,9 @@ export function ExportButton({
       onClick={handleExport}
       disabled={disabled || !applications || applications.length === 0}
       className={className}
-      title="Unduh data ke file CSV"
+      title={t('export.tooltip')}
     >
-      Export CSV
+      {t('export.btnLabel')}
     </Button>
   );
 }

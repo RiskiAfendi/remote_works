@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { Application, CreateApplicationData } from '@/lib/types';
 import {
   subscribeApplications,
@@ -16,6 +16,8 @@ export function useApplications() {
   const [error, setError] = useState<Error | null>(null);
 
   const toast = useToast();
+  const toastRef = useRef(toast);
+  toastRef.current = toast;
 
   useEffect(() => {
     const unsubscribe = subscribeApplications(
@@ -28,12 +30,12 @@ export function useApplications() {
         console.error('Error fetching applications from Firestore:', err);
         setError(err);
         setLoading(false);
-        toast.error('Gagal mengambil data dari Firebase Firestore', 'Error Real-time Sync');
+        toastRef.current.error('Gagal mengambil data dari Firebase Firestore', 'Error Real-time Sync');
       }
     );
 
     return () => unsubscribe();
-  }, [toast]);
+  }, []);
 
   /**
    * Tambah lamaran baru

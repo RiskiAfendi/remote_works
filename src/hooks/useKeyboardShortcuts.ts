@@ -8,6 +8,7 @@ export interface ShortcutHandlers {
   onToggleLock?: () => void;
   onToggleHelp?: () => void;
   onEscape?: () => void;
+  disabled?: boolean;
 }
 
 /**
@@ -19,8 +20,11 @@ export function useKeyboardShortcuts({
   onToggleLock,
   onToggleHelp,
   onEscape,
+  disabled = false,
 }: ShortcutHandlers) {
   useEffect(() => {
+    if (disabled) return;
+
     const handleKeyDown = (event: KeyboardEvent) => {
       // Abaikan shortcut jika user sedang mengetik di input / textarea
       const target = event.target as HTMLElement | null;
@@ -32,6 +36,9 @@ export function useKeyboardShortcuts({
 
       // Escape selalu berfungsi bahkan saat typing
       if (event.key === 'Escape') {
+        if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA')) {
+          target.blur();
+        }
         if (onEscape) {
           onEscape();
         }
@@ -70,5 +77,5 @@ export function useKeyboardShortcuts({
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [onSearchFocus, onNewApplication, onToggleLock, onToggleHelp, onEscape]);
+  }, [onSearchFocus, onNewApplication, onToggleLock, onToggleHelp, onEscape, disabled]);
 }

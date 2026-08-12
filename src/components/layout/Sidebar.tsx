@@ -54,7 +54,7 @@ export default function Sidebar({ isOpen, isCollapsed, onClose, onToggleCollapse
         {/* Tombol close mobile */}
         <div className="flex justify-between items-center p-3 border-b border-[var(--glass-border)] lg:hidden">
           <span className="text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider pl-2">
-            Navigation
+            {t('nav.navigation')}
           </span>
           <button
             onClick={onClose}
@@ -69,7 +69,7 @@ export default function Sidebar({ isOpen, isCollapsed, onClose, onToggleCollapse
         {!isCollapsed && (
           <div className="hidden lg:flex items-center gap-2 px-4 py-3 text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)]">
             <Sparkles size={12} className="text-[var(--accent-primary)]" />
-            <span>Main Menu</span>
+            <span>{t('nav.mainMenu')}</span>
           </div>
         )}
 
@@ -125,8 +125,8 @@ export default function Sidebar({ isOpen, isCollapsed, onClose, onToggleCollapse
               'text-[var(--text-muted)] hover:text-[var(--text-primary)]',
               'hover:bg-[var(--glass-surface-strong)] border border-transparent hover:border-[var(--glass-border)] focus-ring'
             )}
-            aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-            title={isCollapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
+            aria-label={isCollapsed ? t('nav.expand') : t('nav.collapse')}
+            title={isCollapsed ? t('nav.expand') : t('nav.collapse')}
           >
             <ChevronLeft
               size={18}
@@ -135,7 +135,7 @@ export default function Sidebar({ isOpen, isCollapsed, onClose, onToggleCollapse
                 isCollapsed && 'rotate-180'
               )}
             />
-            {!isCollapsed && <span className="text-xs font-semibold">Collapse Sidebar</span>}
+            {!isCollapsed && <span className="text-xs font-semibold">{t('nav.collapse')}</span>}
           </button>
         </div>
       </aside>

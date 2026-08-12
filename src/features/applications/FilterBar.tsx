@@ -164,7 +164,7 @@ export const FilterBar = forwardRef<HTMLInputElement, FilterBarProps>(
                 })}
               </span>
               {filteredCount === 0 && (
-                <span className="text-red-400 font-medium">(No matching items)</span>
+                <span className="text-red-400 font-medium">({t('filter.noMatchingItems')})</span>
               )}
             </div>
 

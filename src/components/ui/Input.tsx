@@ -1,6 +1,6 @@
 'use client';
 
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useId } from 'react';
 import { cn } from '@/lib/utils';
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -27,7 +27,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     },
     ref
   ) => {
-    const inputId = id || (label ? label.toLowerCase().replace(/\s+/g, '-') : undefined);
+    const generatedId = useId();
+    const inputId = id || (label ? label.toLowerCase().replace(/\s+/g, '-') : generatedId);
+    const errorId = `${inputId}-error`;
 
     return (
       <div className="w-full space-y-1.5">
@@ -50,6 +52,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             type={type}
             ref={ref}
             disabled={disabled}
+            aria-invalid={error ? "true" : undefined}
+            aria-describedby={error ? errorId : undefined}
             className={cn(
               'glass-input w-full px-3.5 py-2.5 text-sm transition-all placeholder:text-[var(--text-muted)]',
               leftIcon && 'pl-10',
@@ -67,7 +71,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           )}
         </div>
         {error ? (
-          <p className="text-xs font-medium text-red-400 animate-slide-up">{error}</p>
+          <p id={errorId} className="text-xs font-medium text-red-400 animate-slide-up">{error}</p>
         ) : helperText ? (
           <p className="text-xs text-[var(--text-muted)]">{helperText}</p>
         ) : null}

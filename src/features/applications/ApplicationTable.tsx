@@ -405,7 +405,7 @@ export function ApplicationTable({
                     onClick={() => onEdit(app)}
                     leftIcon={<Edit2 size={14} />}
                   >
-                    Edit
+                    {t('application.edit')}
                   </Button>
                   <Button
                     variant="danger"

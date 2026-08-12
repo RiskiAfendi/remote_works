@@ -28,36 +28,36 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 
 const variantStyles: Record<BadgeVariant, { bg: string; dot: string }> = {
   applied: {
-    bg: 'bg-blue-500/15 text-blue-400 border-blue-500/30 dark:text-blue-300',
-    dot: 'bg-blue-400',
+    bg: 'bg-blue-500/15 text-blue-700 dark:text-blue-300 border-blue-500/30',
+    dot: 'bg-blue-500 dark:bg-blue-400',
   },
   interview: {
-    bg: 'bg-amber-500/15 text-amber-400 border-amber-500/30 dark:text-amber-300',
-    dot: 'bg-amber-400 animate-pulse',
+    bg: 'bg-amber-500/15 text-amber-700 dark:text-amber-300 border-amber-500/30',
+    dot: 'bg-amber-500 dark:bg-amber-400 animate-pulse',
   },
   offer: {
-    bg: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30 dark:text-emerald-300',
-    dot: 'bg-emerald-400',
+    bg: 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500/30',
+    dot: 'bg-emerald-500 dark:bg-emerald-400',
   },
   rejected: {
-    bg: 'bg-red-500/15 text-red-400 border-red-500/30 dark:text-red-300',
-    dot: 'bg-red-400',
+    bg: 'bg-red-500/15 text-red-700 dark:text-red-300 border-red-500/30',
+    dot: 'bg-red-500 dark:bg-red-400',
   },
   ghosted: {
-    bg: 'bg-gray-500/15 text-gray-400 border-gray-500/30 dark:text-gray-300',
-    dot: 'bg-gray-400',
+    bg: 'bg-gray-500/15 text-slate-700 dark:text-gray-300 border-gray-500/30',
+    dot: 'bg-slate-500 dark:bg-gray-400',
   },
   fresh: {
-    bg: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30 dark:text-emerald-300',
-    dot: 'bg-emerald-400',
+    bg: 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500/30',
+    dot: 'bg-emerald-500 dark:bg-emerald-400',
   },
   warning: {
-    bg: 'bg-amber-500/15 text-amber-400 border-amber-500/30 dark:text-amber-300',
-    dot: 'bg-amber-400',
+    bg: 'bg-amber-500/15 text-amber-700 dark:text-amber-300 border-amber-500/30',
+    dot: 'bg-amber-500 dark:bg-amber-400',
   },
   danger: {
-    bg: 'bg-red-500/15 text-red-400 border-red-500/30 dark:text-red-300',
-    dot: 'bg-red-400 animate-ping',
+    bg: 'bg-red-500/15 text-red-700 dark:text-red-300 border-red-500/30',
+    dot: 'bg-red-500 dark:bg-red-400 animate-ping',
   },
   default: {
     bg: 'bg-[var(--glass-surface-strong)] text-[var(--text-secondary)] border-[var(--glass-border)]',

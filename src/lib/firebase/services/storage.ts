@@ -69,18 +69,54 @@ export async function compressImage(
  * Mengunggah file screenshot gambar lamaran ke Firebase Storage.
  * Mengembalikan download URL publik.
  */
+/**
+ * Mengunggah file screenshot gambar lamaran ke Firebase Storage.
+ * Jika Firebase Storage tidak diaktifkan/perlu upgrade berbayar, secara otomatis
+ * mengonversi gambar terkompresi menjadi string Base64 yang disimpan gratis di Firestore.
+ */
 export async function uploadApplicationScreenshot(file: File): Promise<string> {
-  const compressedBlob = await compressImage(file);
-  const cleanFileName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
-  const fileName = `screenshots/${Date.now()}_${cleanFileName}`;
+  const compressedBlob = await compressImage(file, 800, 800, 0.7);
 
-  const storageRef = ref(storage, fileName);
-  await uploadBytes(storageRef, compressedBlob, {
-    contentType: file.type.startsWith('image/') ? 'image/jpeg' : file.type,
-  });
+  // Helper untuk konversi ke Base64 (100% gratis, disimpan di Firestore)
+  const convertToBase64 = (): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        if (reader.result) {
+          resolve(reader.result as string);
+        } else {
+          reject(new Error('Gagal mengonversi gambar ke Base64'));
+        }
+      };
+      reader.onerror = () => reject(new Error('Gagal membaca file gambar'));
+      reader.readAsDataURL(compressedBlob);
+    });
+  };
 
-  const downloadUrl = await getDownloadURL(storageRef);
-  return downloadUrl;
+  try {
+    const cleanFileName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
+    const fileName = `screenshots/${Date.now()}_${cleanFileName}`;
+    const storageRef = ref(storage, fileName);
+
+    const uploadPromise = uploadBytes(storageRef, compressedBlob, {
+      contentType: 'image/jpeg',
+    });
+
+    // Timeout 3 detik jika Storage tidak merespon / tidak aktif
+    const timeoutPromise = new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error('Storage timeout / not enabled')), 3000)
+    );
+
+    await Promise.race([uploadPromise, timeoutPromise]);
+    const downloadUrl = await getDownloadURL(storageRef);
+    return downloadUrl;
+  } catch (storageErr) {
+    console.warn(
+      'Firebase Storage tidak aktif atau memerlukan upgrade plan. Menggunakan penyimpanan Base64 gratis di Firestore:',
+      storageErr
+    );
+    return convertToBase64();
+  }
 }
 
 /**

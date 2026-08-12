@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
-import Script from 'next/script';
 import './globals.css';
 import { ThemeProvider } from '@/context/ThemeContext';
 import { I18nProvider } from '@/context/I18nContext';
+import { AuthProvider } from '@/context/AuthContext';
 import MainLayout from '@/components/layout/MainLayout';
 
 export const metadata: Metadata = {
@@ -18,10 +18,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="antialiased">
-        <Script
+      <head>
+        <script
           id="theme-initializer"
-          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
@@ -37,11 +36,15 @@ export default function RootLayout({
             `,
           }}
         />
+      </head>
+      <body className="antialiased">
         <ThemeProvider>
           <I18nProvider>
-            <MainLayout>
-              {children}
-            </MainLayout>
+            <AuthProvider>
+              <MainLayout>
+                {children}
+              </MainLayout>
+            </AuthProvider>
           </I18nProvider>
         </ThemeProvider>
       </body>

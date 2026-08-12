@@ -181,7 +181,11 @@ function ApplicationFormContent({
       return;
     }
 
-    await onSubmit(payload);
+    try {
+      await onSubmit(payload);
+    } catch (err) {
+      console.error('Failed to submit application:', err);
+    }
   };
 
   const isSubmitting = isLoading || uploadingImage;
@@ -366,10 +370,10 @@ function ApplicationFormContent({
             </div>
             <div>
               <p className="text-xs font-semibold text-[var(--text-primary)]">
-                Click to upload application screenshot
+                {t('application.uploadScreenshot')}
               </p>
               <p className="text-[11px] text-[var(--text-muted)] mt-0.5">
-                JPG, PNG, WebP (Max 5MB)
+                {t('application.uploadHint')}
               </p>
             </div>
           </label>
@@ -387,7 +391,7 @@ function ApplicationFormContent({
         </Button>
         <Button variant="primary" type="submit" isLoading={isSubmitting}>
           {uploadingImage
-            ? 'Uploading Image...'
+            ? t('application.uploading')
             : isEditMode
             ? t('application.save')
             : t('application.addNew')}

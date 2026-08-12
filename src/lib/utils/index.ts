@@ -16,10 +16,18 @@ export function formatDate(date: Date, locale: string = 'id-ID'): string {
 }
 
 // Format tanggal relatif (misal: '3 hari yang lalu')
-export function formatRelativeDate(date: Date): string {
+export function formatRelativeDate(date: Date, locale: string = 'id'): string {
   const now = new Date();
   const diffInMs = now.getTime() - date.getTime();
   const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+
+  if (locale === 'en') {
+    if (diffInDays === 0) return 'Today';
+    if (diffInDays === 1) return 'Yesterday';
+    if (diffInDays < 7) return `${diffInDays} days ago`;
+    if (diffInDays < 30) return `${Math.floor(diffInDays / 7)} weeks ago`;
+    return `${Math.floor(diffInDays / 30)} months ago`;
+  }
 
   if (diffInDays === 0) return 'Hari ini';
   if (diffInDays === 1) return 'Kemarin';

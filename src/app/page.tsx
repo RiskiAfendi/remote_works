@@ -10,7 +10,7 @@ import {
   Plus,
   Sparkles,
 } from 'lucide-react';
-import { Button, StatCard, ConfirmModal, ImagePreviewModal, ShortcutsModal } from '@/components/ui';
+import { Button, StatCard, ConfirmModal, ImagePreviewModal } from '@/components/ui';
 import { Application, CreateApplicationData } from '@/lib/types';
 import { useApplications } from '@/hooks/useApplications';
 import { useAuth } from '@/hooks/useAuth';
@@ -33,7 +33,6 @@ const initialFilters: FilterState = {
 export default function DashboardPage() {
   const { t } = useI18n();
   const { applications, loading, addApp, updateApp, deleteApp } = useApplications();
-  const { lock } = useAuth();
   const toast = useToast();
 
   // Search input ref for keyboard shortcut '/'
@@ -51,7 +50,6 @@ export default function DashboardPage() {
   const [editingApp, setEditingApp] = useState<Application | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [deletingApp, setDeletingApp] = useState<Application | null>(null);
-  const [isShortcutsHelpOpen, setIsShortcutsHelpOpen] = useState(false);
 
   // Image Preview Modal States
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
@@ -184,12 +182,12 @@ export default function DashboardPage() {
     if (editingApp) {
       success = await updateApp(editingApp.id, formData);
       if (success) {
-        toast.success(`Lamaran ke "${formData.company_name}" berhasil diperbarui.`);
+        toast.success(t('toast.updateSuccess', { company: formData.company_name }));
       }
     } else {
       success = await addApp(formData);
       if (success) {
-        toast.success(`Lamaran ke "${formData.company_name}" berhasil ditambahkan.`);
+        toast.success(t('toast.addSuccess', { company: formData.company_name }));
       }
     }
     setFormSubmitting(false);
@@ -206,14 +204,17 @@ export default function DashboardPage() {
     const success = await deleteApp(deletingApp.id, deletingApp.company_name);
     setDeleteSubmitting(false);
     if (success) {
-      toast.info(`Lamaran ke "${deletingApp.company_name}" telah dihapus.`);
+      toast.info(t('toast.deleteSuccess', { company: deletingApp.company_name }));
       setIsDeleteModalOpen(false);
       setDeletingApp(null);
     }
   };
 
+  const { isLocked, lock } = useAuth();
+
   // Global Keyboard Shortcuts Registration
   useKeyboardShortcuts({
+    disabled: isLocked,
     onSearchFocus: () => {
       searchInputRef.current?.focus();
       searchInputRef.current?.select();
@@ -225,17 +226,13 @@ export default function DashboardPage() {
     },
     onToggleLock: () => {
       lock();
-      toast.info('Dashboard terkunci.');
-    },
-    onToggleHelp: () => {
-      setIsShortcutsHelpOpen((prev) => !prev);
+      toast.info(t('toast.dashboardLocked'));
     },
     onEscape: () => {
-      if (isShortcutsHelpOpen) setIsShortcutsHelpOpen(false);
-      if (isPreviewOpen) setIsPreviewOpen(false);
-      if (isFormOpen) setIsFormOpen(false);
-      if (isDeleteModalOpen) setIsDeleteModalOpen(false);
-      if (filters.searchQuery) setFilters((prev) => ({ ...prev, searchQuery: '' }));
+      if (isPreviewOpen) { setIsPreviewOpen(false); }
+      else if (isFormOpen) { setIsFormOpen(false); }
+      else if (isDeleteModalOpen) { setIsDeleteModalOpen(false); }
+      else if (filters.searchQuery) { setFilters((prev) => ({ ...prev, searchQuery: '' })); }
     },
   });
 
@@ -331,7 +328,7 @@ export default function DashboardPage() {
           filters={filters}
           onFilterChange={handleFilterChange}
           onResetFilters={handleResetFilters}
-          applications={filteredAndSortedApplications}
+          applications={applications}
           filteredCount={filteredAndSortedApplications.length}
           totalCount={applications.length}
         />
@@ -354,11 +351,6 @@ export default function DashboardPage() {
         />
       </section>
 
-      {/* Shortcuts Guide Modal */}
-      <ShortcutsModal
-        isOpen={isShortcutsHelpOpen}
-        onClose={() => setIsShortcutsHelpOpen(false)}
-      />
 
       {/* Image Preview Modal */}
       <ImagePreviewModal

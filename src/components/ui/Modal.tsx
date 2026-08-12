@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useRef, useId } from 'react';
 import { X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -16,6 +16,8 @@ export interface ModalProps {
   size?: ModalSize;
   closeOnBackdropClick?: boolean;
 }
+
+const FOCUSABLE_SELECTOR = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 const sizeStyles: Record<ModalSize, string> = {
   sm: 'max-w-sm',
@@ -35,15 +37,65 @@ export function Modal({
   size = 'md',
   closeOnBackdropClick = true,
 }: ModalProps) {
-  // Keypress event handler (ESC key to close)
+  const modalRef = useRef<HTMLDivElement>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
+  const titleId = useId();
+
+  // Keypress event handler (ESC key to close, Tab to trap focus)
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) {
         onClose();
+        return;
+      }
+
+      if (e.key === 'Tab' && isOpen && modalRef.current) {
+        const focusableElements = Array.from(
+          modalRef.current.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)
+        );
+
+        if (focusableElements.length === 0) return;
+
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+
+        if (e.shiftKey) {
+          if (document.activeElement === firstElement) {
+            e.preventDefault();
+            lastElement.focus();
+          }
+        } else {
+          if (document.activeElement === lastElement) {
+            e.preventDefault();
+            firstElement.focus();
+          }
+        }
       }
     },
     [isOpen, onClose]
   );
+
+  useEffect(() => {
+    if (isOpen) {
+      previousFocusRef.current = document.activeElement as HTMLElement | null;
+      
+      requestAnimationFrame(() => {
+        if (modalRef.current) {
+          const focusableElements = Array.from(
+            modalRef.current.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)
+          );
+          if (focusableElements.length > 0) {
+            focusableElements[0].focus();
+          }
+        }
+      });
+    } else {
+      if (previousFocusRef.current) {
+        previousFocusRef.current.focus();
+        previousFocusRef.current = null;
+      }
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     if (isOpen) {
@@ -72,6 +124,7 @@ export function Modal({
 
       {/* Modal Container */}
       <div
+        ref={modalRef}
         className={cn(
           'relative w-full glass-panel glass-noise shadow-2xl overflow-hidden z-10 my-8',
           'animate-[modal-enter_0.25s_cubic-bezier(0.2,0.8,0.2,1)]',
@@ -80,13 +133,14 @@ export function Modal({
         )}
         role="dialog"
         aria-modal="true"
+        aria-labelledby={title ? titleId : undefined}
       >
         {/* Header */}
         {(title || subtitle) && (
           <div className="flex items-start justify-between p-5 md:p-6 border-b border-[var(--glass-border)]">
             <div className="space-y-1 pr-6">
               {title && (
-                <h3 className="font-heading text-lg md:text-xl font-bold text-[var(--text-primary)]">
+                <h3 id={titleId} className="font-heading text-lg md:text-xl font-bold text-[var(--text-primary)]">
                   {title}
                 </h3>
               )}

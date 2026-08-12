@@ -14,12 +14,12 @@ export function ShortcutsModal({ isOpen, onClose }: ShortcutsModalProps) {
   const { t } = useI18n();
 
   const shortcutsList = [
-    { key: '/', description: 'Fokus ke Pencarian / Search' },
-    { key: 'Ctrl + K', description: 'Fokus ke Pencarian / Search (Alternatif)' },
-    { key: 'N', description: 'Tambah Lamaran Baru' },
-    { key: 'L', description: 'Kunci Dashboard dengan PIN' },
-    { key: '?', description: 'Buka / Tutup Bantuan Shortcuts' },
-    { key: 'Esc', description: 'Tutup Modal / Reset Filter' },
+    { key: '/', description: t('shortcuts.focusSearch') },
+    { key: 'Ctrl + K', description: t('shortcuts.focusSearchAlt') },
+    { key: 'N', description: t('shortcuts.newApp') },
+    { key: 'L', description: t('shortcuts.lockDashboard') },
+    { key: '?', description: t('shortcuts.toggleHelp') },
+    { key: 'Esc', description: t('shortcuts.closeEsc') },
   ];
 
   return (
@@ -29,14 +29,14 @@ export function ShortcutsModal({ isOpen, onClose }: ShortcutsModalProps) {
       title={
         <div className="flex items-center gap-2">
           <Keyboard size={20} className="text-[var(--accent-primary)]" />
-          <span>Pintasan Keyboard (Shortcuts)</span>
+          <span>{t('shortcuts.modalTitle')}</span>
         </div>
       }
       size="md"
     >
       <div className="space-y-4 py-2">
         <p className="text-xs text-[var(--text-secondary)]">
-          Gunakan tombol di bawah ini untuk menavigasi dan mengeksekusi aksi cepat di dashboard secara efisien:
+          {t('shortcuts.modalSubtitle')}
         </p>
 
         <div className="divide-y divide-[var(--glass-border)] rounded-2xl glass-panel border border-[var(--glass-border)] overflow-hidden">
@@ -57,7 +57,7 @@ export function ShortcutsModal({ isOpen, onClose }: ShortcutsModalProps) {
 
         <div className="pt-2 text-[11px] text-[var(--text-muted)] flex items-center justify-center gap-1 text-center">
           <Command size={12} />
-          <span>Tekan `Esc` atau tombol silang di atas untuk menutup dialog ini.</span>
+          <span>{t('shortcuts.pressEscToClose')}</span>
         </div>
       </div>
     </Modal>

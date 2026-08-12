@@ -73,15 +73,16 @@ export function PinModal({ isOpen, onUnlock }: PinModalProps) {
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-2xl animate-fade-in select-none"
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-sky-950/20 dark:bg-black/80 backdrop-blur-xl animate-fade-in select-none"
       role="dialog"
       aria-modal="true"
       aria-labelledby="pin-modal-title"
     >
       <div
         className={cn(
-          'relative w-full max-w-sm p-6 sm:p-8 rounded-3xl space-y-6 text-center shadow-2xl transition-all duration-300',
-          'glass-panel border border-[var(--glass-border-strong)] bg-[var(--bg-elevated)]/90 backdrop-blur-2xl',
+          'relative w-full max-w-sm p-6 sm:p-8 rounded-3xl space-y-6 text-center transition-all duration-300',
+          'bg-white/95 dark:bg-[var(--bg-elevated)] border border-white/90 dark:border-[var(--glass-border-strong)] backdrop-blur-2xl text-slate-900 dark:text-[var(--text-primary)]',
+          'shadow-[0_20px_60px_rgba(2,132,199,0.18)] dark:shadow-[var(--shadow-elevated)]',
           shake && 'animate-shake'
         )}
       >
@@ -92,12 +93,12 @@ export function PinModal({ isOpen, onUnlock }: PinModalProps) {
         <div className="flex justify-center">
           <div
             className={cn(
-              'w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-300 shadow-xl border',
+              'w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-300 shadow-md border',
               unlockedSuccess
-                ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40 scale-110'
+                ? 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-500 border-emerald-500/40 scale-110'
                 : error
-                ? 'bg-red-500/20 text-red-400 border-red-500/40'
-                : 'bg-[var(--accent-primary)]/15 text-[var(--accent-primary)] border-[var(--accent-primary)]/30'
+                ? 'bg-red-500/20 text-red-600 dark:text-red-500 border-red-500/40'
+                : 'bg-sky-500/15 text-sky-600 dark:text-[var(--accent-primary)] border-sky-500/30 dark:border-[var(--accent-primary)]/30'
             )}
           >
             {unlockedSuccess ? (
@@ -111,11 +112,11 @@ export function PinModal({ isOpen, onUnlock }: PinModalProps) {
         </div>
 
         {/* Title & Subtitle */}
-        <div className="space-y-1">
-          <h2 id="pin-modal-title" className="font-heading text-xl font-bold text-[var(--text-primary)]">
+        <div className="space-y-1.5">
+          <h2 id="pin-modal-title" className="font-heading text-xl font-bold text-slate-900 dark:text-[var(--text-primary)] tracking-tight">
             {t('auth.pinRequired', { defaultValue: 'Dashboard Terkunci' })}
           </h2>
-          <p className="text-xs text-[var(--text-secondary)]">
+          <p className="text-xs text-slate-600 dark:text-[var(--text-secondary)] font-medium">
             {t('auth.pinSubtitle', { defaultValue: 'Masukkan 4-digit PIN keamanan Anda untuk mengakses data.' })}
           </p>
         </div>
@@ -133,9 +134,9 @@ export function PinModal({ isOpen, onUnlock }: PinModalProps) {
                     ? error
                       ? 'bg-red-500 border-red-400 scale-110 shadow-[0_0_10px_rgba(239,68,68,0.5)]'
                       : unlockedSuccess
-                      ? 'bg-emerald-400 border-emerald-300 scale-110 shadow-[0_0_10px_rgba(52,211,153,0.5)]'
-                      : 'bg-[var(--accent-primary)] border-[var(--accent-primary)] scale-110 shadow-[0_0_12px_var(--accent-primary)]'
-                    : 'bg-[var(--glass-surface)] border-[var(--glass-border)]'
+                      ? 'bg-emerald-500 border-emerald-400 scale-110 shadow-[0_0_10px_rgba(52,211,153,0.5)]'
+                      : 'bg-sky-600 dark:bg-[var(--accent-primary)] border-sky-600 dark:border-[var(--accent-primary)] scale-110 shadow-[0_0_12px_rgba(2,132,199,0.5)] dark:shadow-[0_0_12px_var(--accent-primary)]'
+                    : 'bg-sky-100/80 dark:bg-[var(--glass-surface)] border-sky-200 dark:border-[var(--glass-border)]'
                 )}
               />
             );
@@ -144,22 +145,22 @@ export function PinModal({ isOpen, onUnlock }: PinModalProps) {
 
         {/* Error message */}
         {error && (
-          <p className="text-xs text-red-400 font-medium animate-fade-in flex items-center justify-center gap-1">
+          <p className="text-xs text-red-600 dark:text-red-500 font-semibold animate-fade-in flex items-center justify-center gap-1">
             <AlertCircle size={13} />
             {t('auth.invalidPin', { defaultValue: 'PIN salah, silakan coba lagi (Default: 1234)' })}
           </p>
         )}
 
         {/* Onscreen Liquid Glass Keypad */}
-        <div className="grid grid-cols-3 gap-2.5 pt-2">
+        <div className="grid grid-cols-3 gap-2.5 pt-1">
           {['1', '2', '3', '4', '5', '6', '7', '8', '9'].map((num) => (
             <button
               key={num}
               type="button"
               onClick={() => handleDigit(num)}
               className={cn(
-                'py-3 rounded-2xl text-lg font-bold font-heading transition-all duration-150 active-press focus-ring',
-                'glass-panel hover:bg-[var(--glass-surface-strong)] border border-[var(--glass-border)] text-[var(--text-primary)]'
+                'py-3 rounded-2xl text-lg font-bold font-heading transition-all duration-150 active-press focus-ring shadow-sm',
+                'bg-white/80 hover:bg-sky-50 dark:bg-[var(--glass-surface)] dark:hover:bg-[var(--glass-surface-strong)] border border-sky-100/80 dark:border-[var(--glass-border)] text-slate-900 dark:text-[var(--text-primary)]'
               )}
             >
               {num}
@@ -169,8 +170,8 @@ export function PinModal({ isOpen, onUnlock }: PinModalProps) {
             type="button"
             onClick={() => handleDigit('0')}
             className={cn(
-              'col-start-2 py-3 rounded-2xl text-lg font-bold font-heading transition-all duration-150 active-press focus-ring',
-              'glass-panel hover:bg-[var(--glass-surface-strong)] border border-[var(--glass-border)] text-[var(--text-primary)]'
+              'col-start-2 py-3 rounded-2xl text-lg font-bold font-heading transition-all duration-150 active-press focus-ring shadow-sm',
+              'bg-white/80 hover:bg-sky-50 dark:bg-[var(--glass-surface)] dark:hover:bg-[var(--glass-surface-strong)] border border-sky-100/80 dark:border-[var(--glass-border)] text-slate-900 dark:text-[var(--text-primary)]'
             )}
           >
             0
@@ -179,17 +180,17 @@ export function PinModal({ isOpen, onUnlock }: PinModalProps) {
             type="button"
             onClick={handleBackspace}
             className={cn(
-              'py-3 rounded-2xl text-xs font-semibold transition-all duration-150 active-press focus-ring',
-              'glass-panel hover:bg-[var(--glass-surface-strong)] border border-[var(--glass-border)] text-[var(--text-secondary)] hover:text-red-400'
+              'py-3 rounded-2xl text-xs font-bold transition-all duration-150 active-press focus-ring shadow-sm',
+              'bg-white/80 hover:bg-red-50 dark:bg-[var(--glass-surface)] dark:hover:bg-red-500/10 border border-sky-100/80 dark:border-[var(--glass-border)] text-slate-600 dark:text-[var(--text-secondary)] hover:text-red-600 dark:hover:text-red-500'
             )}
           >
-            Hapus
+            {t('auth.deletePin')}
           </button>
         </div>
 
-        <div className="pt-2 text-[10px] text-[var(--text-muted)] flex items-center justify-center gap-1">
-          <Shield size={12} className="text-[var(--accent-primary)]" />
-          <span>Personal Local Security (PIN Default: 1234)</span>
+        <div className="pt-2 text-[11px] text-slate-500 dark:text-[var(--text-muted)] font-medium flex items-center justify-center gap-1.5">
+          <Shield size={13} className="text-sky-600 dark:text-[var(--accent-primary)] shrink-0" />
+          <span>{t('auth.localSecurity')}</span>
         </div>
       </div>
     </div>

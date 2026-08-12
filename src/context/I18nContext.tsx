@@ -8,7 +8,7 @@ import idTranslations from '../../public/locales/id/common.json';
 interface I18nContextType {
   locale: Locale;
   setLocale: (locale: Locale) => void;
-  t: (key: string, params?: Record<string, string>) => string;
+  t: (key: string, params?: Record<string, string | number>) => string;
   isLoading: boolean;
 }
 
@@ -23,16 +23,17 @@ type Translations = Record<string, TranslationValue>;
  * Mendukung bahasa Indonesia dan English dengan file JSON lokal.
  */
 export function I18nProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>(() => {
-    if (typeof window === 'undefined') return 'id';
-    const saved = localStorage.getItem('rw-locale') as Locale | null;
-    if (saved && (saved === 'en' || saved === 'id')) return saved;
-    return 'id';
-  });
-  const [translations, setTranslations] = useState<Translations>(() =>
-    locale === 'id' ? idTranslations : enTranslations
-  );
+  const [locale, setLocaleState] = useState<Locale>('id');
+  const [translations, setTranslations] = useState<Translations>(idTranslations);
   const [isLoading, setIsLoading] = useState(false);
+
+  // Load saved locale dari localStorage saat komponen di-mount
+  useEffect(() => {
+    const saved = localStorage.getItem('rw-locale') as Locale | null;
+    if (saved && (saved === 'en' || saved === 'id')) {
+      setLocaleState(saved);
+    }
+  }, []);
 
   // Muat file terjemahan saat locale berubah
   useEffect(() => {
@@ -50,7 +51,8 @@ export function I18nProvider({ children }: { children: ReactNode }) {
    * Contoh: t('dashboard.welcome', { name: 'John' })
    */
   const t = useCallback(
-    (key: string, params?: Record<string, string>): string => {
+    (key: string, params?: Record<string, string | number>): string => {
+      const defaultValue = params?.defaultValue ? String(params.defaultValue) : undefined;
       const keys = key.split('.');
       let value: TranslationValue | undefined = translations;
 
@@ -58,16 +60,16 @@ export function I18nProvider({ children }: { children: ReactNode }) {
         if (value && typeof value === 'object' && k in value) {
           value = (value as Record<string, TranslationValue>)[k];
         } else {
-          return key; // Kembalikan key jika terjemahan tidak ditemukan
+          return defaultValue ?? key; // Kembalikan defaultValue jika ada, atau key
         }
       }
 
-      if (typeof value !== 'string') return key;
+      if (typeof value !== 'string') return defaultValue ?? key;
 
       // Ganti parameter template {{param}}
       if (params) {
         return Object.entries(params).reduce(
-          (str, [paramKey, paramVal]) => str.replace(`{{${paramKey}}}`, paramVal),
+          (str, [paramKey, paramVal]) => str.replace(`{{${paramKey}}}`, String(paramVal)),
           value
         );
       }

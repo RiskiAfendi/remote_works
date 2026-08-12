@@ -4,13 +4,14 @@
     "tagline": "Lacak lamaran kerja remote kamu"
   },
   "nav": {
-    "dashboard": "Dasbor",
+    "dashboard": "Dashboard",
     "applications": "Lamaran",
     "analytics": "Analitik",
-    "settings": "Pengaturan",
+    "settings": "Pengaturan & Keamanan",
     "mainMenu": "Menu Utama",
     "collapse": "Kecilkan Sidebar",
-    "expand": "Perluas Sidebar"
+    "expand": "Perluas Sidebar",
+    "navigation": "Navigasi"
   },
   "dashboard": {
     "welcome": "Selamat datang, {{name}}!",
@@ -46,7 +47,10 @@
     "accountEmail": "Email Akun",
     "screenshot": "Tangkapan Layar",
     "deleteConfirmTitle": "Hapus Lamaran Kerja?",
-    "deleteConfirmMessage": "Apakah Anda yakin ingin menghapus lamaran ke \"{{company}}\" ({{position}})? Tindakan ini tidak dapat dibatalkan."
+    "deleteConfirmMessage": "Apakah Anda yakin ingin menghapus lamaran ke \"{{company}}\" ({{position}})? Tindakan ini tidak dapat dibatalkan.",
+    "uploadScreenshot": "Klik untuk mengunggah screenshot lamaran",
+    "uploadHint": "JPG, PNG, WebP (Maks 5MB)",
+    "uploading": "Mengunggah Gambar..."
   },
   "status": {
     "Applied": "Sudah Melamar",
@@ -58,14 +62,21 @@
   "aging": {
     "fresh": "Masih Baru",
     "warning": "Perlu Follow-up",
-    "danger": "Risiko Tinggi"
+    "danger": "Risiko Tinggi",
+    "today": "Hari ini",
+    "daysAbbrev": "hr",
+    "daysAgo": "hari lalu",
+    "daysNoUpdate": "hari tanpa kabar",
+    "daysNoResponse": "hari tanpa respon"
   },
   "auth": {
     "pinRequired": "Dashboard Terkunci",
     "pinSubtitle": "Masukkan 4-digit PIN keamanan Anda untuk mengakses data.",
     "invalidPin": "PIN salah, silakan coba lagi (Default: 1234)",
     "lockDashboard": "Kunci Dashboard",
-    "unlock": "Buka Kunci"
+    "unlock": "Buka Kunci",
+    "deletePin": "Hapus",
+    "localSecurity": "Personal Local Security (PIN Default: 1234)"
   },
   "empty": {
     "noDataTitle": "Belum Ada Lamaran Kerja",
@@ -81,7 +92,8 @@
     "allCompany": "Semua Perusahaan",
     "allAging": "Semua Umur Lamaran",
     "showingResults": "Menampilkan {{count}} dari {{total}} lamaran",
-    "reset": "Reset Filter"
+    "reset": "Reset Filter",
+    "noMatchingItems": "Tidak ada item yang cocok"
   },
   "table": {
     "title": "Daftar Lamaran Kerja",
@@ -109,5 +121,125 @@
     "lightMode": "Mode Terang",
     "language": "Bahasa",
     "shortcuts": "Pintasan Keyboard"
+  },
+  "settings": {
+    "systemBadge": "Pengaturan Sistem",
+    "title": "Pengaturan & Keamanan",
+    "subtitle": "Kelola proteksi PIN dashboard, preferensi tampilan tema, dan bahasa aplikasi.",
+    "pinSectionTitle": "Proteksi PIN Dashboard",
+    "pinSectionSub": "Amankan seluruh tampilan data lamaran dari akses tanpa izin di perangkat Anda.",
+    "pinActive": "PIN Aktif",
+    "pinReady": "Siap Digunakan",
+    "credentialStatus": "Status Kredensial",
+    "customPinSet": "PIN Kustom Terpasang",
+    "defaultPinSet": "PIN Default (1234)",
+    "customPinDesc": "PIN kustom rahasia Anda tersimpan aman di penyimpanan lokal peramban.",
+    "defaultPinDesc": "Anda masih menggunakan PIN standar. Sangat disarankan untuk mengubahnya dengan PIN kustom.",
+    "quickAction": "Aksi Cepat",
+    "lockNow": "Kunci Layar Sekarang",
+    "lockShortcutDesc": "Tekan tombol di bawah atau gunakan shortcut keyboard `L` untuk mengunci tampilan.",
+    "createChangePin": "Buat / Ubah PIN Baru",
+    "lockDashboardBtn": "Kunci Dashboard (L)",
+    "resetDefaultBtn": "Reset ke Default (1234)",
+    "pinResetToast": "PIN Keamanan dikembalikan ke default (1234).",
+    "appearanceSectionTitle": "Tampilan & Bahasa",
+    "appearanceSectionSub": "Sesuaikan mode visual dan konteks bahasa antarmuka aplikasi.",
+    "displayMode": "Mode Tampilan",
+    "activeThemeDark": "Tema aktif: Mode Gelap (Dark Mode)",
+    "activeThemeLight": "Tema aktif: Mode Terang (Light Mode)",
+    "changeTheme": "Ubah Tema",
+    "appLanguage": "Bahasa Aplikasi",
+    "installedLanguage": "Bahasa terpasang: {{lang}}",
+    "langID": "Bahasa Indonesia (ID)",
+    "langEN": "English (EN)",
+    "switchLangBtn": "English EN",
+    "systemInfoTitle": "Informasi Sistem",
+    "infoApp": "Aplikasi",
+    "infoDatabase": "Engine Database",
+    "infoStorage": "File Storage",
+    "infoUI": "Desain UI"
+  },
+  "pinSettings": {
+    "modalTitleEdit": "Ubah PIN Keamanan Dashboard",
+    "modalTitleCreate": "Buat PIN Keamanan Dashboard",
+    "modalSubtitle": "Prosedur verifikasi identitas untuk mengamankan hak akses pengubahan PIN.",
+    "step1": "1. Verifikasi Identitas",
+    "step2": "2. Konfirmasi Kode",
+    "step3": "3. Set PIN Baru",
+    "chooseMethodDesc": "Pilih metode verifikasi keamanan di bawah ini untuk membuktikan kepemilikan akses sebelum mengubah PIN:",
+    "githubAuthTitle": "GitHub Auth",
+    "githubAuthDesc": "Verifikasi 1-Klik GitHub",
+    "emailOtpTitle": "Email OTP",
+    "emailOtpDesc": "Kode 6-Digit via Email",
+    "waOtpTitle": "WhatsApp / Telegram",
+    "waOtpDesc": "OTP via Pesan Singkat",
+    "currentPinTitle": "PIN Saat Ini",
+    "currentPinDesc": "Gunakan 4-Digit PIN lama",
+    "changeMethod": "Ganti Metode Verifikasi",
+    "githubVerifyTitle": "Autentikasi dengan GitHub",
+    "githubVerifyDesc": "Sistem akan memverifikasi identitas Anda menggunakan kredensial sesi akun GitHub Anda.",
+    "githubVerifyBtn": "Verifikasi via GitHub",
+    "otpTargetLabel": "Tujuan Pengiriman OTP",
+    "placeholderEmail": "Masukkan Email",
+    "placeholderPhone": "Masukkan Nomor WhatsApp",
+    "sendOtpBtn": "Kirim OTP",
+    "otpCodeLabel": "Kode OTP 6-Digit",
+    "otpCodePlaceholder": "Contoh: 123456",
+    "confirmOtpBtn": "Konfirmasi Kode OTP",
+    "currentPinLabel": "Masukkan PIN Saat Ini",
+    "currentPinPlaceholder": "4-Digit PIN (Default: 1234)",
+    "verifyPinBtn": "Verifikasi PIN",
+    "identityVerified": "Verifikasi Identitas Sukses! Silakan tetapkan 4-digit PIN baru Anda di bawah ini:",
+    "newPinLabel": "PIN Baru (4-Digit Angka)",
+    "newPinPlaceholder": "Contoh: 8888",
+    "confirmPinLabel": "Konfirmasi PIN Baru",
+    "confirmPinPlaceholder": "Ketik Ulang PIN Baru",
+    "saveNewPinBtn": "Simpan PIN Baru",
+    "successTitle": "PIN Berhasil Diperbarui!",
+    "successSub": "Gunakan PIN 4-digit baru ini saat membuka kuncian dashboard aplikasi.",
+    "doneBtn": "Selesai",
+    "otpSentToast": "Kode OTP verifikasi dikirim ke {{contact}}. (Gunakan kode: 123456)",
+    "githubSuccessToast": "Autentikasi GitHub Berhasil!",
+    "otpSuccessToast": "Kode OTP Berhasil Dikonfirmasi!",
+    "otpError": "Kode OTP salah. Silakan coba 123456.",
+    "currentPinSuccessToast": "PIN saat ini terverifikasi!",
+    "currentPinError": "PIN saat ini salah. Silakan coba lagi.",
+    "pinLengthError": "PIN harus berupa 4 angka numerik.",
+    "pinMismatchError": "Konfirmasi PIN tidak cocok dengan PIN baru.",
+    "pinUpdateSuccessToast": "PIN Keamanan Dashboard Berhasil Diperbarui!",
+    "pinUpdateFail": "Gagal memperbarui PIN."
+  },
+  "shortcuts": {
+    "modalTitle": "Pintasan Keyboard (Shortcuts)",
+    "modalSubtitle": "Gunakan tombol di bawah ini untuk menavigasi dan mengeksekusi aksi cepat di dashboard secara efisien:",
+    "focusSearch": "Fokus ke Pencarian / Search",
+    "focusSearchAlt": "Fokus ke Pencarian / Search (Alternatif)",
+    "newApp": "Tambah Lamaran Baru",
+    "lockDashboard": "Kunci Layar Dashboard (PIN Security Lock)",
+    "toggleHelp": "Buka / Tutup Bantuan Shortcuts",
+    "closeEsc": "Tutup Modal / Reset Filter",
+    "pressEscToClose": "Tekan `Esc` atau tombol silang di atas untuk menutup dialog ini."
+  },
+  "imagePreview": {
+    "title": "Screenshot: {{company}}",
+    "openOriginal": "Buka Ukuran Asli di Tab Baru",
+    "close": "Tutup",
+    "defaultCompany": "Bukti Lamaran",
+    "defaultTitle": "Screenshot"
+  },
+  "export": {
+    "btnLabel": "Export CSV",
+    "tooltip": "Unduh data ke file CSV",
+    "noDataError": "Tidak ada data lamaran untuk diexport.",
+    "noDataTitle": "Export Gagal",
+    "successToast": "Berhasil mengeksport {{count}} data lamaran ke CSV.",
+    "successTitle": "Export Berhasil",
+    "failToast": "Gagal membuat file CSV."
+  },
+  "toast": {
+    "updateSuccess": "Lamaran ke \"{{company}}\" berhasil diperbarui.",
+    "addSuccess": "Lamaran ke \"{{company}}\" berhasil ditambahkan.",
+    "deleteSuccess": "Lamaran ke \"{{company}}\" telah dihapus.",
+    "dashboardLocked": "Dashboard terkunci."
   }
 }
