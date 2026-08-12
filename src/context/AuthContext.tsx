@@ -24,9 +24,9 @@ export interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [isPinEnabled, setIsPinEnabled] = useState<boolean>(false);
+  const [isPinEnabled, setIsPinEnabled] = useState<boolean>(true);
   const [pinCode, setPinCodeState] = useState<string>(DEFAULT_PIN);
-  const [isLocked, setIsLocked] = useState<boolean>(false);
+  const [isLocked, setIsLocked] = useState<boolean>(true);
   const [isInitialized, setIsInitialized] = useState<boolean>(false);
 
   // Load status awal dari localStorage
@@ -36,7 +36,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const savedEnabled = localStorage.getItem(STORAGE_PIN_ENABLED_KEY);
     const savedPin = localStorage.getItem(STORAGE_PIN_CODE_KEY);
 
-    const enabled = savedEnabled ? savedEnabled === 'true' : false;
+    // Default ENABLED (true) jika belum ada setting di localStorage (pertama kali buka)
+    const enabled = savedEnabled === null ? true : savedEnabled === 'true';
     const code = savedPin && savedPin.length === 4 ? savedPin : DEFAULT_PIN;
 
     setIsPinEnabled(enabled);

@@ -144,42 +144,42 @@
 :root[data-theme="light"] {
   /* Background */
   --bg-base: #F0F9FF;
-  --bg-elevated: rgba(255, 255, 255, 0.85);
-  --bg-solid-card: rgba(255, 255, 255, 0.92);
+  --bg-elevated: #FFFFFF;
+  --bg-solid-card: #FFFFFF;
 
   /* Glass Surfaces */
-  --glass-surface: rgba(127, 205, 255, 0.12);
-  --glass-surface-strong: rgba(127, 205, 255, 0.20);
-  --glass-border: rgba(127, 205, 255, 0.22);
-  --glass-border-strong: rgba(127, 205, 255, 0.35);
+  --glass-surface: rgba(255, 255, 255, 0.85);
+  --glass-surface-strong: rgba(240, 249, 255, 0.95);
+  --glass-border: rgba(2, 132, 199, 0.18);
+  --glass-border-strong: rgba(2, 132, 199, 0.35);
 
   /* Accent Colors */
   --accent-primary: #0284C7;
   --accent-secondary: #0EA5E9;
   --accent-hover: #0369A1;
-  --accent-active: #0EA5E9;
+  --accent-active: #0284C7;
 
-  /* Typography */
-  --text-primary: rgba(15, 23, 42, 0.95);
-  --text-secondary: rgba(15, 23, 42, 0.72);
-  --text-muted: rgba(15, 23, 42, 0.48);
+  /* Typography - High Contrast Slate Scale */
+  --text-primary: #0F172A;
+  --text-secondary: #334155;
+  --text-muted: #64748B;
 
   /* Shadows */
-  --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.08);
-  --shadow-glass-hover: 0 12px 40px rgba(14, 165, 233, 0.12);
-  --shadow-elevated: 0 24px 48px rgba(0, 0, 0, 0.12);
+  --shadow-glass: 0 8px 32px rgba(2, 132, 199, 0.08);
+  --shadow-glass-hover: 0 12px 40px rgba(2, 132, 199, 0.16);
+  --shadow-elevated: 0 24px 48px rgba(15, 23, 42, 0.08);
 
   /* Glass properties */
-  --glass-blur: 14px;
+  --glass-blur: 16px;
   --glass-saturate: 180%;
 
   /* Edge Lighting */
-  --edge-top: rgba(255, 255, 255, 0.8);
-  --edge-left: rgba(255, 255, 255, 0.4);
-  --edge-bottom: rgba(0, 0, 0, 0.05);
+  --edge-top: rgba(255, 255, 255, 0.95);
+  --edge-left: rgba(255, 255, 255, 0.7);
+  --edge-bottom: rgba(2, 132, 199, 0.08);
 
   /* Inner highlight */
-  --inner-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  --inner-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 /* ============================================

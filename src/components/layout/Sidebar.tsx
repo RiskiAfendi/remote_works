@@ -29,10 +29,10 @@ export default function Sidebar({ isOpen, isCollapsed, onClose, onToggleCollapse
 
   return (
     <>
-      {/* Backdrop overlay untuk mobile */}
+      {/* Backdrop overlay untuk mobile (dimulai di bawah Navbar top-16 agar Header tetap terlihat) */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/60 backdrop-blur-md z-40 lg:hidden animate-fade-in transition-opacity"
+          className="fixed top-16 inset-x-0 bottom-0 bg-slate-900/50 backdrop-blur-md z-40 lg:hidden animate-fade-in transition-opacity"
           onClick={onClose}
           aria-hidden="true"
         />
@@ -42,7 +42,7 @@ export default function Sidebar({ isOpen, isCollapsed, onClose, onToggleCollapse
       <aside
         className={cn(
           'glass-sidebar fixed top-16 bottom-0 z-40 flex flex-col transition-all duration-300 ease-in-out',
-          'border-r border-[var(--glass-border)] bg-[var(--glass-surface)]/80 backdrop-blur-xl',
+          'border-r border-[var(--glass-border)] bg-[var(--bg-solid-card)] backdrop-blur-2xl shadow-2xl',
           // Desktop: selalu tampil, bisa collapsed
           'lg:translate-x-0',
           isCollapsed ? 'lg:w-[72px]' : 'lg:w-[260px]',
@@ -52,16 +52,16 @@ export default function Sidebar({ isOpen, isCollapsed, onClose, onToggleCollapse
         )}
       >
         {/* Tombol close mobile */}
-        <div className="flex justify-between items-center p-3 border-b border-[var(--glass-border)] lg:hidden">
-          <span className="text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider pl-2">
+        <div className="flex justify-between items-center p-3.5 border-b border-[var(--glass-border)] lg:hidden">
+          <span className="text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider pl-2">
             {t('nav.navigation')}
           </span>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-xl hover:bg-[var(--glass-surface-strong)] focus-ring transition-colors"
+            className="p-1.5 rounded-xl hover:bg-[var(--glass-surface-strong)] active-press focus-ring transition-colors"
             aria-label="Close sidebar"
           >
-            <X size={18} className="text-[var(--text-secondary)]" />
+            <X size={20} className="text-[var(--text-primary)]" />
           </button>
         </div>
 
@@ -88,8 +88,8 @@ export default function Sidebar({ isOpen, isCollapsed, onClose, onToggleCollapse
                 className={cn(
                   'relative flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium transition-all duration-200 group focus-ring',
                   isActive
-                    ? 'bg-[var(--glass-surface-strong)] text-[var(--accent-primary)] border border-[var(--glass-border-strong)] shadow-[0_0_16px_var(--glass-surface-strong)]'
-                    : 'text-[var(--text-secondary)] hover:bg-[var(--glass-surface)] hover:text-[var(--text-primary)] border border-transparent'
+                    ? 'bg-[var(--accent-primary)]/15 text-[var(--accent-primary)] font-bold border border-[var(--accent-primary)]/30 shadow-sm'
+                    : 'text-[var(--text-secondary)] hover:bg-[var(--glass-surface-strong)] hover:text-[var(--text-primary)] border border-transparent'
                 )}
               >
                 {/* Active indicator bar */}
@@ -107,7 +107,7 @@ export default function Sidebar({ isOpen, isCollapsed, onClose, onToggleCollapse
                   />
                 )}
                 {!isCollapsed && (
-                  <span className="text-sm font-medium truncate">
+                  <span className="text-sm font-semibold truncate">
                     {t(item.labelKey)}
                   </span>
                 )}
