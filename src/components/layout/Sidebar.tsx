@@ -42,7 +42,7 @@ export default function Sidebar({ isOpen, isCollapsed, onClose, onToggleCollapse
       <aside
         className={cn(
           'glass-sidebar fixed top-16 bottom-0 z-40 flex flex-col transition-all duration-300 ease-in-out',
-          'border-r border-[var(--glass-border)] bg-[var(--bg-solid-card)] backdrop-blur-2xl shadow-2xl',
+          'border-r border-[var(--glass-border)] bg-[var(--bg-elevated)] backdrop-blur-2xl shadow-xl',
           // Desktop: selalu tampil, bisa collapsed
           'lg:translate-x-0',
           isCollapsed ? 'lg:w-[72px]' : 'lg:w-[260px]',
