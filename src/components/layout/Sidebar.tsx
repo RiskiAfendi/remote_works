@@ -32,7 +32,7 @@ export default function Sidebar({ isOpen, isCollapsed, onClose, onToggleCollapse
       {/* Backdrop overlay untuk mobile (dimulai di bawah Navbar top-16 agar Header tetap terlihat) */}
       {isOpen && (
         <div
-          className="fixed top-16 inset-x-0 bottom-0 bg-slate-900/50 backdrop-blur-md z-40 lg:hidden animate-fade-in transition-opacity"
+          className="fixed top-16 inset-x-0 bottom-0 bg-slate-900/30 dark:bg-black/60 backdrop-blur-sm z-40 lg:hidden animate-fade-in transition-opacity"
           onClick={onClose}
           aria-hidden="true"
         />
@@ -42,7 +42,7 @@ export default function Sidebar({ isOpen, isCollapsed, onClose, onToggleCollapse
       <aside
         className={cn(
           'glass-sidebar fixed top-16 bottom-0 z-40 flex flex-col transition-all duration-300 ease-in-out',
-          'border-r border-[var(--glass-border)] bg-[var(--bg-elevated)] backdrop-blur-2xl shadow-xl',
+          'border-r border-[var(--glass-border)] bg-[var(--bg-base)] backdrop-blur-2xl shadow-xl',
           // Desktop: selalu tampil, bisa collapsed
           'lg:translate-x-0',
           isCollapsed ? 'lg:w-[72px]' : 'lg:w-[260px]',
