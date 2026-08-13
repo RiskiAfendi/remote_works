@@ -41,3 +41,35 @@ export interface NavItem {
   href: string;
   icon: string;
 }
+
+// Kategori Pembayaran Sumber Loker
+export type PaymentCategory = 'IDR' | 'International' | 'Both';
+
+// Kategori Wilayah Sumber Loker
+export type RegionCategory = 'Indonesia' | 'International' | 'Both';
+
+// Status Akun Sumber Loker
+export type JobSourceStatus = 'active' | 'inactive' | 'suspended';
+
+// Entitas Sumber Loker (Job Source)
+export interface JobSource {
+  id: string;
+  name: string;
+  url: string;
+  logo_url: string;
+  payment_category: PaymentCategory;
+  region_category: RegionCategory;
+  login_email: string;
+  account_username: string;
+  status: JobSourceStatus;
+  notes: string;
+  created_at: Date;
+  updated_at: Date;
+}
+
+// Data untuk membuat Job Source baru
+export type CreateJobSourceData = Omit<JobSource, 'id' | 'created_at' | 'updated_at'>;
+
+// Data untuk memperbarui Job Source
+export type UpdateJobSourceData = Partial<Omit<JobSource, 'id' | 'created_at'>> & { id: string };
+

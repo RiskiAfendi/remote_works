@@ -75,7 +75,8 @@ export async function compressImage(
  * mengonversi gambar terkompresi menjadi string Base64 yang disimpan gratis di Firestore.
  */
 export async function uploadApplicationScreenshot(file: File): Promise<string> {
-  const compressedBlob = await compressImage(file, 800, 800, 0.7);
+  // Kompresi dengan resolusi hingga 1920px dan kualitas 0.85 agar teks pada screenshot tetap tajam dan tidak buram
+  const compressedBlob = await compressImage(file, 1920, 1920, 0.85);
 
   // Helper untuk konversi ke Base64 (100% gratis, disimpan di Firestore)
   const convertToBase64 = (): Promise<string> => {
@@ -131,3 +132,51 @@ export async function deleteApplicationScreenshot(fileUrl: string): Promise<void
     console.warn('Gagal menghapus gambar dari Firebase Storage:', err);
   }
 }
+
+/**
+ * Mengunggah logo Job Source ke Firebase Storage di bawah path job-sources/{userId}/{filename}.
+ * Memiliki fallback Base64 jika Firebase Storage tidak merespon/aktif.
+ */
+export async function uploadJobSourceLogo(file: File, userId: string = 'default'): Promise<string> {
+  const compressedBlob = await compressImage(file, 512, 512, 0.9);
+
+  const convertToBase64 = (): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        if (reader.result) {
+          resolve(reader.result as string);
+        } else {
+          reject(new Error('Gagal mengonversi logo ke Base64'));
+        }
+      };
+      reader.onerror = () => reject(new Error('Gagal membaca file logo'));
+      reader.readAsDataURL(compressedBlob);
+    });
+  };
+
+  try {
+    const cleanFileName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
+    const fileName = `job-sources/${userId}/${Date.now()}_${cleanFileName}`;
+    const storageRef = ref(storage, fileName);
+
+    const uploadPromise = uploadBytes(storageRef, compressedBlob, {
+      contentType: 'image/jpeg',
+    });
+
+    const timeoutPromise = new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error('Storage timeout / not enabled')), 3000)
+    );
+
+    await Promise.race([uploadPromise, timeoutPromise]);
+    const downloadUrl = await getDownloadURL(storageRef);
+    return downloadUrl;
+  } catch (storageErr) {
+    console.warn(
+      'Firebase Storage timeout/gagal, menggunakan Base64 fallback untuk logo job source:',
+      storageErr
+    );
+    return convertToBase64();
+  }
+}
+

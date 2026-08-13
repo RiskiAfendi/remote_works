@@ -3,7 +3,7 @@
 import React from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { LayoutDashboard, FileText, BarChart3, Settings, ChevronLeft, X, Sparkles } from 'lucide-react';
+import { LayoutDashboard, FileText, Globe, BarChart3, Settings, ChevronLeft, X, Sparkles } from 'lucide-react';
 import { useI18n } from '@/context/I18nContext';
 import { cn } from '@/lib/utils';
 import { NAV_ITEMS } from '@/lib/constants';
@@ -19,9 +19,11 @@ interface SidebarProps {
 const iconMap: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
   LayoutDashboard,
   FileText,
+  Globe,
   BarChart3,
   Settings,
 };
+
 
 export default function Sidebar({ isOpen, isCollapsed, onClose, onToggleCollapse }: SidebarProps) {
   const pathname = usePathname();

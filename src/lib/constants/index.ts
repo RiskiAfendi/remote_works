@@ -23,9 +23,32 @@ export const EMPLOYMENT_TYPES = [
 export const NAV_ITEMS = [
   { labelKey: 'nav.dashboard', href: '/', icon: 'LayoutDashboard' },
   { labelKey: 'nav.applications', href: '/applications', icon: 'FileText' },
+  { labelKey: 'nav.jobSources', href: '/job-sources', icon: 'Globe' },
   { labelKey: 'nav.analytics', href: '/analytics', icon: 'BarChart3' },
   { labelKey: 'nav.settings', href: '/settings', icon: 'Settings' },
 ] as const;
+
+// Kategori Pembayaran Job Sources
+export const PAYMENT_CATEGORIES = [
+  { value: 'IDR', labelKey: 'jobSources.paymentIdr', bgClass: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/25' },
+  { value: 'International', labelKey: 'jobSources.paymentIntl', bgClass: 'bg-blue-500/15 text-blue-400 border-blue-500/25' },
+  { value: 'Both', labelKey: 'jobSources.paymentBoth', bgClass: 'bg-purple-500/15 text-purple-400 border-purple-500/25' },
+] as const;
+
+// Kategori Wilayah Job Sources
+export const REGION_CATEGORIES = [
+  { value: 'Indonesia', labelKey: 'jobSources.regionIndo', bgClass: 'bg-red-500/15 text-red-400 border-red-500/25' },
+  { value: 'International', labelKey: 'jobSources.regionIntl', bgClass: 'bg-indigo-500/15 text-indigo-400 border-indigo-500/25' },
+  { value: 'Both', labelKey: 'jobSources.regionBoth', bgClass: 'bg-amber-500/15 text-amber-400 border-amber-500/25' },
+] as const;
+
+// Status Akun Job Sources
+export const JOB_SOURCE_STATUSES = [
+  { value: 'active', labelKey: 'jobSources.statusActive', bgClass: 'bg-emerald-400/15 text-emerald-400 border-emerald-400/25' },
+  { value: 'inactive', labelKey: 'jobSources.statusInactive', bgClass: 'bg-slate-400/15 text-slate-400 border-slate-400/25' },
+  { value: 'suspended', labelKey: 'jobSources.statusSuspended', bgClass: 'bg-rose-500/15 text-rose-400 border-rose-500/25' },
+] as const;
+
 
 // Breakpoints responsif
 export const BREAKPOINTS = {
