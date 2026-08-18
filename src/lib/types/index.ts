@@ -2,7 +2,7 @@
 export type ApplicationStatus = 'Applied' | 'Interview' | 'Offer' | 'Rejected' | 'Ghosted';
 
 // Jenis pekerjaan
-export type EmploymentType = 'Full-time' | 'Part-time' | 'Contract' | 'Hourly';
+export type EmploymentType = 'Full-time' | 'Part-time' | 'Contract' | 'Hourly' | 'Internship';
 
 // Locale yang didukung
 export type Locale = 'en' | 'id';

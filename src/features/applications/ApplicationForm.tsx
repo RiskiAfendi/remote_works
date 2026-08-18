@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import {
   Briefcase,
   Building,
@@ -12,6 +12,7 @@ import {
   Tag,
   Upload,
   X,
+  ClipboardPaste,
 } from 'lucide-react';
 import { Modal, Input, Select, Textarea, Button } from '@/components/ui';
 import { Application, CreateApplicationData, ApplicationStatus, EmploymentType } from '@/lib/types';
@@ -57,6 +58,7 @@ function ApplicationFormContent({
     { value: 'Part-time', label: 'Part-time' },
     { value: 'Contract', label: 'Contract' },
     { value: 'Hourly', label: 'Hourly' },
+    { value: 'Internship', label: 'Internship' },
   ];
 
   const [formData, setFormData] = useState(() => {
@@ -114,14 +116,53 @@ function ApplicationFormContent({
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setSelectedFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFilePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      processImageFile(file);
     }
   };
+
+  // Shared helper: set file + preview from a File object
+  const processImageFile = (file: File) => {
+    setSelectedFile(file);
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setFilePreview(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  // Handle paste from clipboard (Ctrl+V / Cmd+V)
+  const handlePaste = useCallback(
+    (e: ClipboardEvent) => {
+      if (isLoading || uploadingImage) return;
+      const items = e.clipboardData?.items;
+      if (!items) return;
+
+      for (const item of Array.from(items)) {
+        if (item.type.startsWith('image/')) {
+          e.preventDefault();
+          const blob = item.getAsFile();
+          if (blob) {
+            // Create a named file from the blob
+            const extension = item.type.split('/')[1] || 'png';
+            const filename = `screenshot-paste-${Date.now()}.${extension}`;
+            const file = new File([blob], filename, { type: item.type });
+            processImageFile(file);
+          }
+          break;
+        }
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [isLoading, uploadingImage]
+  );
+
+  // Register global paste listener so Ctrl+V works anywhere while the form is open
+  useEffect(() => {
+    document.addEventListener('paste', handlePaste);
+    return () => {
+      document.removeEventListener('paste', handlePaste);
+    };
+  }, [handlePaste]);
 
   const handleRemoveImage = () => {
     setSelectedFile(null);
@@ -361,22 +402,54 @@ function ApplicationFormContent({
             </Button>
           </div>
         ) : (
-          <label
-            htmlFor="screenshot-upload-input"
-            className="border-2 border-dashed border-[var(--glass-border)] hover:border-[var(--accent-primary)] bg-[var(--glass-surface)] hover:bg-[var(--glass-surface-strong)] rounded-xl p-4 flex flex-col items-center justify-center cursor-pointer transition-all duration-200 text-center gap-2 group"
-          >
-            <div className="p-2.5 rounded-full bg-[var(--accent-primary)]/10 text-[var(--accent-primary)] group-hover:scale-110 transition-transform">
-              <Upload size={20} />
+          <div className="border-2 border-dashed border-[var(--glass-border)] hover:border-[var(--accent-primary)] bg-[var(--glass-surface)] hover:bg-[var(--glass-surface-strong)] rounded-xl p-4 transition-all duration-200">
+            <div className="flex flex-col sm:flex-row items-center gap-4">
+              {/* Upload manual */}
+              <label
+                htmlFor="screenshot-upload-input"
+                className="flex-1 flex flex-col items-center justify-center cursor-pointer text-center gap-2 group py-2"
+              >
+                <div className="p-2.5 rounded-full bg-[var(--accent-primary)]/10 text-[var(--accent-primary)] group-hover:scale-110 transition-transform">
+                  <Upload size={20} />
+                </div>
+                <div>
+                  <p className="text-xs font-semibold text-[var(--text-primary)]">
+                    {t('application.uploadScreenshot')}
+                  </p>
+                  <p className="text-[11px] text-[var(--text-muted)] mt-0.5">
+                    {t('application.uploadHint')}
+                  </p>
+                </div>
+              </label>
+
+              {/* Separator */}
+              <div className="hidden sm:flex flex-col items-center gap-1">
+                <div className="w-px h-6 bg-[var(--glass-border)]" />
+                <span className="text-[10px] font-semibold text-[var(--text-muted)] uppercase">or</span>
+                <div className="w-px h-6 bg-[var(--glass-border)]" />
+              </div>
+              <div className="sm:hidden flex items-center gap-2 w-full">
+                <div className="flex-1 h-px bg-[var(--glass-border)]" />
+                <span className="text-[10px] font-semibold text-[var(--text-muted)] uppercase">or</span>
+                <div className="flex-1 h-px bg-[var(--glass-border)]" />
+              </div>
+
+              {/* Paste from clipboard */}
+              <div className="flex-1 flex flex-col items-center justify-center text-center gap-2 py-2">
+                <div className="p-2.5 rounded-full bg-emerald-500/10 text-emerald-500">
+                  <ClipboardPaste size={20} />
+                </div>
+                <div>
+                  <p className="text-xs font-semibold text-[var(--text-primary)]">
+                    Paste Screenshot
+                  </p>
+                  <p className="text-[11px] text-[var(--text-muted)] mt-0.5">
+                    Ctrl+V / ⌘V
+                  </p>
+                </div>
+              </div>
             </div>
-            <div>
-              <p className="text-xs font-semibold text-[var(--text-primary)]">
-                {t('application.uploadScreenshot')}
-              </p>
-              <p className="text-[11px] text-[var(--text-muted)] mt-0.5">
-                {t('application.uploadHint')}
-              </p>
-            </div>
-          </label>
+          </div>
         )}
 
         {errors.image_url && (

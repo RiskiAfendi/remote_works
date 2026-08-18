@@ -48,7 +48,7 @@ export const validateApplication = (
     errors.status = 'Pilih status lamaran yang valid';
   }
 
-  const validTypes: EmploymentType[] = ['Full-time', 'Part-time', 'Contract', 'Hourly'];
+  const validTypes: EmploymentType[] = ['Full-time', 'Part-time', 'Contract', 'Hourly', 'Internship'];
   if (!data.employment_type || !validTypes.includes(data.employment_type)) {
     errors.employment_type = 'Pilih jenis pekerjaan yang valid';
   }

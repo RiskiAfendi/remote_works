@@ -17,6 +17,7 @@ export const EMPLOYMENT_TYPES = [
   'Part-time',
   'Contract',
   'Hourly',
+  'Internship',
 ] as const;
 
 // Navigasi sidebar
