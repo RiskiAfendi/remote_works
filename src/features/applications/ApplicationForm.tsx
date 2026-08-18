@@ -13,12 +13,17 @@ import {
   Upload,
   X,
   ClipboardPaste,
+  PenLine,
+  Sparkles,
 } from 'lucide-react';
 import { Modal, Input, Select, Textarea, Button } from '@/components/ui';
 import { Application, CreateApplicationData, ApplicationStatus, EmploymentType } from '@/lib/types';
 import { validateApplication, ApplicationFormErrors } from '@/lib/validations/applicationValidation';
 import { uploadApplicationScreenshot } from '@/lib/firebase/services/storage';
 import { useI18n } from '@/context/I18nContext';
+import { cn } from '@/lib/utils';
+import { ApplicationJsonImport } from './ApplicationJsonImport';
+
 
 export interface ApplicationFormProps {
   isOpen: boolean;
@@ -483,7 +488,15 @@ export function ApplicationForm({
 }: ApplicationFormProps) {
   const { t } = useI18n();
   const isEditMode = Boolean(initialData);
+  const [activeTab, setActiveTab] = useState<'manual' | 'json'>('manual');
   const formKey = initialData?.id || (isOpen ? 'open' : 'closed');
+
+  // Reset tab to manual when modal closes or opens
+  useEffect(() => {
+    if (!isOpen) {
+      setActiveTab('manual');
+    }
+  }, [isOpen]);
 
   return (
     <Modal
@@ -494,16 +507,61 @@ export function ApplicationForm({
       closeOnBackdropClick={!isLoading}
     >
       {isOpen && (
-        <ApplicationFormContent
-          key={formKey}
-          initialData={initialData}
-          onSubmit={onSubmit}
-          onClose={onClose}
-          isLoading={isLoading}
-        />
+        <div className="space-y-4">
+          {/* Tab toggle only in Add Mode */}
+          {!isEditMode && (
+            <div className="flex items-center justify-center border-b border-[var(--glass-border)] pb-3.5">
+              <div className="inline-flex p-1 rounded-xl bg-[var(--glass-surface)] border border-[var(--glass-border)] gap-1">
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('manual')}
+                  className={cn(
+                    'flex items-center gap-2 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200',
+                    activeTab === 'manual'
+                      ? 'bg-[var(--glass-surface-strong)] text-[var(--accent-primary)] border border-[var(--accent-primary)]/40 shadow-sm font-semibold'
+                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--glass-surface-strong)]'
+                  )}
+                >
+                  <PenLine size={15} />
+                  <span>{t('jsonImport.tabManual')}</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('json')}
+                  className={cn(
+                    'flex items-center gap-2 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200',
+                    activeTab === 'json'
+                      ? 'bg-[var(--glass-surface-strong)] text-[var(--accent-primary)] border border-[var(--accent-primary)]/40 shadow-sm font-semibold'
+                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--glass-surface-strong)]'
+                  )}
+                >
+                  <Sparkles size={15} />
+                  <span>{t('jsonImport.tabJson')}</span>
+                </button>
+              </div>
+            </div>
+          )}
+
+          {!isEditMode && activeTab === 'json' ? (
+            <ApplicationJsonImport
+              onSubmit={onSubmit}
+              onClose={onClose}
+              isLoading={isLoading}
+            />
+          ) : (
+            <ApplicationFormContent
+              key={formKey}
+              initialData={initialData}
+              onSubmit={onSubmit}
+              onClose={onClose}
+              isLoading={isLoading}
+            />
+          )}
+        </div>
       )}
     </Modal>
   );
 }
 
 export default ApplicationForm;
+
