@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import Navbar from './Navbar';
 import Sidebar from './Sidebar';
 import { ToastProvider } from '@/components/ui/Toast';
@@ -61,6 +61,22 @@ export default function MainLayout({ children, onOpenNewApplicationModal }: Main
     setIsShortcutsOpen(false);
   }, []);
 
+  // Lock body scroll on mobile when sidebar is open
+  useEffect(() => {
+    const isMobile = () => window.innerWidth < 1024; // lg breakpoint
+    if (sidebarOpen && isMobile()) {
+      document.body.style.overflow = 'hidden';
+      document.body.classList.add('sidebar-open');
+    } else {
+      document.body.style.overflow = '';
+      document.body.classList.remove('sidebar-open');
+    }
+    return () => {
+      document.body.style.overflow = '';
+      document.body.classList.remove('sidebar-open');
+    };
+  }, [sidebarOpen]);
+
   return (
     <ToastProvider>
       <div className="relative min-h-screen bg-[var(--bg-base)] text-[var(--text-primary)]">
@@ -91,8 +107,11 @@ export default function MainLayout({ children, onOpenNewApplicationModal }: Main
         <main
           className={cn(
             'pt-16 min-h-screen transition-all duration-300',
-            sidebarCollapsed ? 'lg:pl-[72px]' : 'lg:pl-[260px]'
+            sidebarCollapsed ? 'lg:pl-[72px]' : 'lg:pl-[260px]',
+            // When mobile sidebar is open, block all interaction with main content
+            sidebarOpen ? 'pointer-events-none select-none lg:pointer-events-auto lg:select-auto' : ''
           )}
+          aria-hidden={sidebarOpen ? true : undefined}
         >
           <div className="p-4 md:p-6 lg:p-8 max-w-7xl mx-auto animate-fade-in space-y-8">
             {children}

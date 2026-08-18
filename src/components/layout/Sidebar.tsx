@@ -31,10 +31,10 @@ export default function Sidebar({ isOpen, isCollapsed, onClose, onToggleCollapse
 
   return (
     <>
-      {/* Backdrop overlay untuk mobile (dimulai di bawah Navbar top-16 agar Header tetap terlihat) */}
+      {/* Backdrop overlay untuk mobile — mengisi area bawah navbar, memblur konten di belakang */}
       {isOpen && (
         <div
-          className="fixed top-16 inset-x-0 bottom-0 bg-slate-900/30 dark:bg-black/60 backdrop-blur-sm z-40 lg:hidden animate-fade-in transition-opacity"
+          className="fixed top-16 inset-x-0 bottom-0 bg-slate-900/40 dark:bg-black/60 backdrop-blur-sm z-40 lg:hidden animate-fade-in"
           onClick={onClose}
           aria-hidden="true"
         />
@@ -43,13 +43,20 @@ export default function Sidebar({ isOpen, isCollapsed, onClose, onToggleCollapse
       {/* Sidebar Container */}
       <aside
         className={cn(
-          'glass-sidebar fixed top-16 bottom-0 z-40 flex flex-col transition-all duration-300 ease-in-out',
-          'border-r border-[var(--glass-border)] bg-[var(--bg-base)] backdrop-blur-2xl shadow-xl',
+          'fixed top-16 bottom-0 flex flex-col transition-all duration-300 ease-in-out shadow-xl',
+          // Desktop: glass effect
+          'lg:glass-sidebar lg:bg-transparent lg:backdrop-blur-2xl lg:border-r lg:border-[var(--glass-border)]',
+          // Mobile: solid opaque background matching desktop light appearance — no glass transparency
+          'border-r border-[var(--glass-border)]',
+          // Solid bg for mobile so icons/text are always readable in both light and dark themes
+          'bg-[var(--bg-base)] lg:bg-transparent',
+          // z-index: above overlay (z-40) on mobile, normal stacking on desktop
+          'z-50 lg:z-30',
           // Desktop: selalu tampil, bisa collapsed
           'lg:translate-x-0',
           isCollapsed ? 'lg:w-[72px]' : 'lg:w-[260px]',
-          // Mobile: drawer
-          isOpen ? 'translate-x-0 w-[260px]' : '-translate-x-full w-[260px]',
+          // Mobile: drawer slide in/out
+          isOpen ? 'translate-x-0 w-[280px]' : '-translate-x-full w-[280px]',
           'lg:flex'
         )}
       >

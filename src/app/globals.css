@@ -388,3 +388,24 @@ h1, h2, h3, h4, h5, h6 {
   pointer-events: none;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
 }
+
+/* ============================================
+   Mobile Sidebar Scroll Lock
+   Applied to body when mobile sidebar is open
+   ============================================ */
+body.sidebar-open {
+  overflow: hidden;
+  touch-action: none;
+}
+
+/* Mobile sidebar: ensure full opacity solid background
+   so text/icons are always clearly visible in both themes */
+@media (max-width: 1023px) {
+  .glass-sidebar {
+    /* Override glass transparency on mobile — use solid bg-base color */
+    background: var(--bg-base) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15), 8px 0 48px rgba(0, 0, 0, 0.08);
+  }
+}
