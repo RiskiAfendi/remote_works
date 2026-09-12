@@ -25,18 +25,19 @@ function useIsMounted() {
  * Menyimpan preferensi di localStorage dan mendeteksi preferensi sistem.
  */
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>('dark');
-  const mounted = useIsMounted();
-
-  // Inisialisasi preferensi tema dari localStorage/media query setelah mount
-  useEffect(() => {
-    const saved = localStorage.getItem('rw-theme') as Theme | null;
-    if (saved && (saved === 'dark' || saved === 'light')) {
-      setThemeState(saved);
-    } else if (typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: light)').matches) {
-      setThemeState('light');
+  const [theme, setThemeState] = useState<Theme>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('rw-theme') as Theme | null;
+      if (saved && (saved === 'dark' || saved === 'light')) {
+        return saved;
+      }
+      if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+        return 'light';
+      }
     }
-  }, []);
+    return 'dark';
+  });
+  const mounted = useIsMounted();
 
   // Terapkan class dan atribut tema ke document
   useEffect(() => {

@@ -12,7 +12,7 @@ export interface AgingBadgeProps {
 }
 
 export function AgingBadge({ appliedDate, showText = true, className }: AgingBadgeProps) {
-  const { t, locale } = useI18n();
+  const { t } = useI18n();
   const dateObj = typeof appliedDate === 'string' ? new Date(appliedDate) : appliedDate;
   const days = calculateAgingDays(dateObj);
   const level = getAgingLevel(days);

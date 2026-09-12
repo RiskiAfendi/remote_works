@@ -24,11 +24,11 @@ export default function Navbar({
 }: NavbarProps) {
   const { theme, toggleTheme } = useTheme();
   const { locale, setLocale, t } = useI18n();
-  const [mounted, setMounted] = React.useState(false);
-
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = React.useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
 
   const isDark = mounted ? theme === 'dark' : true;
 

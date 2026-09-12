@@ -73,3 +73,41 @@ export type CreateJobSourceData = Omit<JobSource, 'id' | 'created_at' | 'updated
 // Data untuk memperbarui Job Source
 export type UpdateJobSourceData = Partial<Omit<JobSource, 'id' | 'created_at'>> & { id: string };
 
+// Kategori / Spesialisasi Direktori Loker
+export type DirectoryCategory =
+  | 'ai'
+  | 'tech'
+  | 'general'
+  | 'startup'
+  | 'design'
+  | 'marketing'
+  | 'other';
+
+// Cakupan Wilayah Direktori Loker
+export type DirectoryRegion = 'Worldwide' | 'Indonesia' | 'US / Regional' | 'All';
+
+// Model Kompensasi Direktori Loker
+export type DirectoryCompensation = 'Hourly' | 'Salaried' | 'Mixed';
+
+// Entitas Direktori & Agregator Loker (Job Directory / Aggregator)
+export interface JobDirectory {
+  id: string;
+  name: string;
+  url: string;
+  logo_url?: string;
+  description: string;
+  category: DirectoryCategory;
+  region_scope: DirectoryRegion;
+  compensation_model: DirectoryCompensation;
+  tags: string[];
+  is_curated?: boolean;
+  created_at: Date;
+  updated_at: Date;
+}
+
+// Data untuk membuat Job Directory baru
+export type CreateJobDirectoryData = Omit<JobDirectory, 'id' | 'created_at' | 'updated_at'>;
+
+// Data untuk memperbarui Job Directory
+export type UpdateJobDirectoryData = Partial<Omit<JobDirectory, 'id' | 'created_at'>> & { id: string };
+

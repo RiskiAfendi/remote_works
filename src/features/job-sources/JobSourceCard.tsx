@@ -16,7 +16,7 @@ interface JobSourceCardProps {
 
 export function JobSourceCard({ source, onEdit, onDelete, onViewDetail }: JobSourceCardProps) {
   const { t } = useI18n();
-  const [imageError, setImageError] = useState(false);
+  const [failedLogoSrc, setFailedLogoSrc] = useState<string | null>(null);
   const [copiedEmail, setCopiedEmail] = useState(false);
 
   // Helper domain favicon URL
@@ -116,13 +116,13 @@ export function JobSourceCard({ source, onEdit, onDelete, onViewDetail }: JobSou
           <div className="flex items-center gap-3.5 min-w-0">
             {/* Logo Container */}
             <div className="relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white/80 dark:bg-slate-800/80 p-2 shadow-sm border border-[var(--glass-border)]">
-              {logoSrc && !imageError ? (
+              {logoSrc && failedLogoSrc !== logoSrc ? (
                 /* eslint-disable-next-line @next/next/no-img-element */
                 <img
                   src={logoSrc}
                   alt={source.name}
                   className="h-full w-full object-contain"
-                  onError={() => setImageError(true)}
+                  onError={() => setFailedLogoSrc(logoSrc)}
                 />
               ) : (
                 <div className="flex h-full w-full items-center justify-center font-bold text-lg text-[var(--accent-primary)] bg-[var(--accent-primary)]/10 rounded-lg">

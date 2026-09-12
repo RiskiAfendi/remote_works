@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { Lock, KeyRound, AlertCircle, CheckCircle2, Shield } from 'lucide-react';
+import { Lock, AlertCircle, CheckCircle2, Shield } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useI18n } from '@/context/I18nContext';
 

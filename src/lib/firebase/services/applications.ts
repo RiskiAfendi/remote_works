@@ -24,6 +24,9 @@ const docToApplication = (id: string, data: Record<string, unknown>): Applicatio
     if (typeof (val as { toDate?: () => Date }).toDate === 'function') {
       return (val as { toDate: () => Date }).toDate();
     }
+    if (val && typeof (val as { seconds?: number }).seconds === 'number') {
+      return new Date((val as { seconds: number }).seconds * 1000);
+    }
     if (val instanceof Date) return val;
     if (typeof val === 'string' || typeof val === 'number') return new Date(val);
     return new Date();
@@ -59,6 +62,7 @@ export const subscribeApplications = (
   const appsRef = collection(db, COLLECTION_NAME);
   const q = query(appsRef, orderBy('applied_date', 'desc'));
 
+  let fallbackUnsub: (() => void) | null = null;
   const unsubscribe = onSnapshot(
     q,
     (snapshot) => {
@@ -68,7 +72,7 @@ export const subscribeApplications = (
     (err) => {
       // Fallback jika klausa orderBy belum terindeks atau gagal
       console.warn('Snapshot query with orderBy failed, falling back to basic query:', err.message);
-      const fallbackUnsub = onSnapshot(
+      fallbackUnsub = onSnapshot(
         appsRef,
         (fallbackSnapshot) => {
           const apps = fallbackSnapshot.docs.map((docSnap) =>
@@ -80,11 +84,15 @@ export const subscribeApplications = (
         },
         onError
       );
-      return fallbackUnsub;
     }
   );
 
-  return unsubscribe;
+  return () => {
+    unsubscribe();
+    if (fallbackUnsub) {
+      fallbackUnsub();
+    }
+  };
 };
 
 /**

@@ -17,7 +17,9 @@ export function useJobSources() {
 
   const toast = useToast();
   const toastRef = useRef(toast);
-  toastRef.current = toast;
+  useEffect(() => {
+    toastRef.current = toast;
+  });
 
   useEffect(() => {
     const unsubscribe = subscribeJobSources(

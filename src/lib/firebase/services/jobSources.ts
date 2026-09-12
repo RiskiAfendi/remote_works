@@ -23,6 +23,9 @@ const docToJobSource = (id: string, data: Record<string, unknown>): JobSource =>
     if (typeof (val as { toDate?: () => Date }).toDate === 'function') {
       return (val as { toDate: () => Date }).toDate();
     }
+    if (val && typeof (val as { seconds?: number }).seconds === 'number') {
+      return new Date((val as { seconds: number }).seconds * 1000);
+    }
     if (val instanceof Date) return val;
     if (typeof val === 'string' || typeof val === 'number') return new Date(val);
     return new Date();
@@ -55,6 +58,7 @@ export const subscribeJobSources = (
   const sourcesRef = collection(db, COLLECTION_NAME);
   const q = query(sourcesRef, orderBy('created_at', 'desc'));
 
+  let fallbackUnsub: (() => void) | null = null;
   const unsubscribe = onSnapshot(
     q,
     (snapshot) => {
@@ -63,7 +67,7 @@ export const subscribeJobSources = (
     },
     (err) => {
       console.warn('Snapshot query with orderBy failed, falling back to basic query:', err.message);
-      const fallbackUnsub = onSnapshot(
+      fallbackUnsub = onSnapshot(
         sourcesRef,
         (fallbackSnapshot) => {
           const sources = fallbackSnapshot.docs.map((docSnap) =>
@@ -74,11 +78,15 @@ export const subscribeJobSources = (
         },
         onError
       );
-      return fallbackUnsub;
     }
   );
 
-  return unsubscribe;
+  return () => {
+    unsubscribe();
+    if (fallbackUnsub) {
+      fallbackUnsub();
+    }
+  };
 };
 
 /**

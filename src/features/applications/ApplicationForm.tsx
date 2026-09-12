@@ -28,13 +28,13 @@ import { ApplicationJsonImport } from './ApplicationJsonImport';
 export interface ApplicationFormProps {
   isOpen: boolean;
   onClose: () => void;
-  initialData?: Application | null;
+  initialData?: Application | Partial<Application> | null;
   onSubmit: (data: CreateApplicationData) => Promise<void>;
   isLoading?: boolean;
 }
 
 interface FormContentProps {
-  initialData?: Application | null;
+  initialData?: Application | Partial<Application> | null;
   onSubmit: (data: CreateApplicationData) => Promise<void>;
   onClose: () => void;
   isLoading: boolean;
@@ -47,7 +47,7 @@ function ApplicationFormContent({
   isLoading,
 }: FormContentProps) {
   const { t } = useI18n();
-  const isEditMode = Boolean(initialData);
+  const isEditMode = Boolean(initialData && 'id' in initialData && initialData.id);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const statusOptions = [
@@ -68,9 +68,13 @@ function ApplicationFormContent({
 
   const [formData, setFormData] = useState(() => {
     if (initialData) {
-      const formattedDate = initialData.applied_date
-        ? new Date(initialData.applied_date).toISOString().split('T')[0]
-        : new Date().toISOString().split('T')[0];
+      let formattedDate = new Date().toISOString().split('T')[0];
+      if (initialData.applied_date) {
+        const d = new Date(initialData.applied_date);
+        if (!isNaN(d.getTime())) {
+          formattedDate = d.toISOString().split('T')[0];
+        }
+      }
 
       return {
         company_name: initialData.company_name || '',
@@ -157,7 +161,6 @@ function ApplicationFormContent({
         }
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [isLoading, uploadingImage]
   );
 
@@ -206,6 +209,14 @@ function ApplicationFormContent({
       }
     }
 
+    const normalizeUrl = (raw?: string | null) => {
+      const trimmed = (raw || '').trim();
+      if (!trimmed) return '';
+      return trimmed.startsWith('http://') || trimmed.startsWith('https://')
+        ? trimmed
+        : `https://${trimmed}`;
+    };
+
     const payload: CreateApplicationData = {
       company_name: formData.company_name.trim(),
       job_title: formData.job_title.trim(),
@@ -213,8 +224,8 @@ function ApplicationFormContent({
       applied_date: new Date(formData.applied_date),
       status: formData.status,
       employment_type: formData.employment_type,
-      source_url: formData.source_url.trim(),
-      apply_url: formData.apply_url.trim(),
+      source_url: normalizeUrl(formData.source_url),
+      apply_url: normalizeUrl(formData.apply_url),
       salary_rate: formData.salary_rate.trim(),
       skills_required: skillsArray,
       notes: formData.notes.trim(),
@@ -487,21 +498,22 @@ export function ApplicationForm({
   isLoading = false,
 }: ApplicationFormProps) {
   const { t } = useI18n();
-  const isEditMode = Boolean(initialData);
+  const isEditMode = Boolean(initialData && 'id' in initialData && initialData.id);
   const [activeTab, setActiveTab] = useState<'manual' | 'json'>('manual');
-  const formKey = initialData?.id || (isOpen ? 'open' : 'closed');
+  const formKey =
+    (initialData && 'id' in initialData ? initialData.id : '') +
+    (isOpen ? '-open' : '-closed') +
+    (initialData?.source_url || '');
 
-  // Reset tab to manual when modal closes or opens
-  useEffect(() => {
-    if (!isOpen) {
-      setActiveTab('manual');
-    }
-  }, [isOpen]);
+  const handleClose = () => {
+    setActiveTab('manual');
+    onClose();
+  };
 
   return (
     <Modal
       isOpen={isOpen}
-      onClose={onClose}
+      onClose={handleClose}
       title={isEditMode ? t('application.edit') : t('application.addNew')}
       size="xl"
       closeOnBackdropClick={!isLoading}
@@ -545,7 +557,7 @@ export function ApplicationForm({
           {!isEditMode && activeTab === 'json' ? (
             <ApplicationJsonImport
               onSubmit={onSubmit}
-              onClose={onClose}
+              onClose={handleClose}
               isLoading={isLoading}
             />
           ) : (
@@ -553,7 +565,7 @@ export function ApplicationForm({
               key={formKey}
               initialData={initialData}
               onSubmit={onSubmit}
-              onClose={onClose}
+              onClose={handleClose}
               isLoading={isLoading}
             />
           )}

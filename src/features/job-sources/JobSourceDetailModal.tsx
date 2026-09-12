@@ -21,7 +21,7 @@ export function JobSourceDetailModal({
   onEdit,
 }: JobSourceDetailModalProps) {
   const { t } = useI18n();
-  const [imageError, setImageError] = useState(false);
+  const [failedLogoSrc, setFailedLogoSrc] = useState<string | null>(null);
   const [copiedEmail, setCopiedEmail] = useState(false);
 
   if (!source) return null;
@@ -99,13 +99,13 @@ export function JobSourceDetailModal({
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[var(--glass-border)] pb-5">
           <div className="flex items-center gap-4 min-w-0">
             <div className="relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-white/90 dark:bg-slate-800/90 p-2.5 shadow-md border border-[var(--glass-border)]">
-              {logoSrc && !imageError ? (
+              {logoSrc && failedLogoSrc !== logoSrc ? (
                 /* eslint-disable-next-line @next/next/no-img-element */
                 <img
                   src={logoSrc}
                   alt={source.name}
                   className="h-full w-full object-contain"
-                  onError={() => setImageError(true)}
+                  onError={() => setFailedLogoSrc(logoSrc)}
                 />
               ) : (
                 <div className="flex h-full w-full items-center justify-center font-bold text-2xl text-[var(--accent-primary)] bg-[var(--accent-primary)]/10 rounded-xl">
@@ -232,11 +232,11 @@ export function JobSourceDetailModal({
         <div className="flex flex-wrap items-center justify-between text-xs text-[var(--text-muted)] pt-3 border-t border-[var(--glass-border)] gap-2">
           <div className="flex items-center gap-1.5">
             <Calendar size={13} />
-            <span>Ditambahkan: {formatDate(source.created_at)}</span>
+            <span>{t('jobSources.dateAdded')}: {formatDate(source.created_at)}</span>
           </div>
           <div className="flex items-center gap-1.5">
             <Clock size={13} />
-            <span>Diperbarui: {formatDate(source.updated_at)}</span>
+            <span>{t('jobSources.dateUpdated')}: {formatDate(source.updated_at)}</span>
           </div>
         </div>
 

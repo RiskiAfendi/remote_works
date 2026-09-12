@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
+import { createContext, useContext, useState, useCallback, type ReactNode } from 'react';
 import type { Locale } from '@/lib/types';
 import enTranslations from '../../public/locales/en/common.json';
 import idTranslations from '../../public/locales/id/common.json';
@@ -23,22 +23,18 @@ type Translations = Record<string, TranslationValue>;
  * Mendukung bahasa Indonesia dan English dengan file JSON lokal.
  */
 export function I18nProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>('id');
-  const [translations, setTranslations] = useState<Translations>(idTranslations);
-  const [isLoading, setIsLoading] = useState(false);
-
-  // Load saved locale dari localStorage saat komponen di-mount
-  useEffect(() => {
-    const saved = localStorage.getItem('rw-locale') as Locale | null;
-    if (saved && (saved === 'en' || saved === 'id')) {
-      setLocaleState(saved);
+  const [locale, setLocaleState] = useState<Locale>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('rw-locale') as Locale | null;
+      if (saved && (saved === 'en' || saved === 'id')) {
+        return saved;
+      }
     }
-  }, []);
+    return 'id';
+  });
 
-  // Muat file terjemahan saat locale berubah
-  useEffect(() => {
-    setTranslations(locale === 'id' ? idTranslations : enTranslations);
-  }, [locale]);
+  const translations: Translations = locale === 'id' ? idTranslations : enTranslations;
+  const isLoading = false;
 
   const setLocale = useCallback((newLocale: Locale) => {
     setLocaleState(newLocale);

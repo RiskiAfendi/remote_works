@@ -90,12 +90,12 @@ export function JobSourceFilterBar({
         <div className="flex items-center justify-between gap-2">
           <span className="text-xs font-bold uppercase tracking-wider text-[var(--text-muted)] flex items-center gap-1.5">
             <Filter size={14} className="text-[var(--accent-primary)]" />
-            <span>Filter Platform:</span>
+            <span>{t('jobSources.filterHeader')}:</span>
           </span>
 
           {/* Counter Badge */}
           <div className="text-xs font-medium text-[var(--text-secondary)] bg-[var(--glass-surface-strong)] px-3 py-1 rounded-xl border border-[var(--glass-border)] shrink-0">
-            Total: <span className="font-bold text-[var(--accent-primary)]">{totalResults}</span> platform
+            Total: <span className="font-bold text-[var(--accent-primary)]">{totalResults}</span> {t('jobSources.resultsCount')}
           </div>
         </div>
 

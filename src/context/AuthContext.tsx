@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useContext, useState, useCallback } from 'react';
 
 const STORAGE_PIN_ENABLED_KEY = 'rw_pin_enabled';
 const STORAGE_PIN_CODE_KEY = 'rw_pin_code';
@@ -24,27 +24,30 @@ export interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [isPinEnabled, setIsPinEnabled] = useState<boolean>(true);
-  const [pinCode, setPinCodeState] = useState<string>(DEFAULT_PIN);
-  const [isLocked, setIsLocked] = useState<boolean>(true);
-  const [isInitialized, setIsInitialized] = useState<boolean>(false);
-
-  // Load status awal dari localStorage
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    const savedEnabled = localStorage.getItem(STORAGE_PIN_ENABLED_KEY);
-    const savedPin = localStorage.getItem(STORAGE_PIN_CODE_KEY);
-
-    // Default ENABLED (true) jika belum ada setting di localStorage (pertama kali buka)
-    const enabled = savedEnabled === null ? true : savedEnabled === 'true';
-    const code = savedPin && savedPin.length === 4 ? savedPin : DEFAULT_PIN;
-
-    setIsPinEnabled(enabled);
-    setPinCodeState(code);
-    setIsLocked(enabled); // Kunci otomatis jika PIN diaktifkan
-    setIsInitialized(true);
-  }, []);
+  const [isPinEnabled, setIsPinEnabled] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      const savedEnabled = localStorage.getItem(STORAGE_PIN_ENABLED_KEY);
+      return savedEnabled === null ? true : savedEnabled === 'true';
+    }
+    return true;
+  });
+  const [pinCode, setPinCodeState] = useState<string>(() => {
+    if (typeof window !== 'undefined') {
+      const savedPin = localStorage.getItem(STORAGE_PIN_CODE_KEY);
+      return savedPin && savedPin.length === 4 ? savedPin : DEFAULT_PIN;
+    }
+    return DEFAULT_PIN;
+  });
+  const [isLocked, setIsLocked] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      const savedEnabled = localStorage.getItem(STORAGE_PIN_ENABLED_KEY);
+      return savedEnabled === null ? true : savedEnabled === 'true';
+    }
+    return true;
+  });
+  const [isInitialized] = useState<boolean>(() => {
+    return typeof window !== 'undefined';
+  });
 
   // Simpan PIN code ke localStorage
   const savePinCode = (code: string) => {
