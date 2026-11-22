@@ -30,7 +30,7 @@ const providers = [
   {
     id: 'chatgpt',
     name: 'ChatGPT',
-    url: 'https://chatgpt.com/#settings/Plugins',
+    url: 'https://chatgpt.com/plugins',
     action: 'Open Plugins',
   },
   {
