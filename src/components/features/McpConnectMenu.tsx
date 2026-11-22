@@ -4,27 +4,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import {
   ChevronDown,
   Copy,
-  Download,
   ExternalLink,
   PlugZap,
 } from 'lucide-react';
 import { useI18n } from '@/context/I18nContext';
 import { useToast } from '@/components/ui/Toast';
+import { Modal } from '@/components/ui/Modal';
 import { cn } from '@/lib/utils';
-
-const MCP_CONFIG = JSON.stringify(
-  {
-    mcpServers: {
-      'remote-works': {
-        command: 'node',
-        args: ['/absolute/path/to/remote_works/scripts/mcp-server.mjs'],
-        cwd: '/absolute/path/to/remote_works',
-      },
-    },
-  },
-  null,
-  2
-);
 
 const providers = [
   {
@@ -40,6 +26,12 @@ const providers = [
     action: 'Open Connectors',
   },
   {
+    id: 'codex',
+    name: 'Codex',
+    url: 'https://chatgpt.com/codex',
+    action: 'Open Codex',
+  },
+  {
     id: 'cursor',
     name: 'Cursor',
     url: 'cursor://anysphere.cursor-deeplink/mcp/install',
@@ -52,6 +44,8 @@ const providers = [
     action: 'Install MCP',
   },
 ];
+
+type ProviderId = 'chatgpt' | 'claude' | 'codex' | 'cursor' | 'vscode';
 
 function buildCursorInstallUrl() {
   const config = window.btoa(
@@ -78,7 +72,88 @@ export function McpConnectMenu({ className }: { className?: string }) {
   const { t } = useI18n();
   const toast = useToast();
   const [isOpen, setIsOpen] = useState(false);
+  const [isSetupOpen, setIsSetupOpen] = useState(false);
+  const [selectedProvider, setSelectedProvider] = useState<ProviderId>('chatgpt');
   const containerRef = useRef<HTMLDivElement>(null);
+  const mcpServerUrl =
+    process.env.NEXT_PUBLIC_MCP_SERVER_URL?.trim() || 'https://example.com/mcp';
+  const mcpName = 'remote-works';
+  const mcpDescription =
+    'Manage job applications, job sources, and job directories in Remote Works.';
+  const mcpCommand = 'node';
+  const mcpArguments = '/absolute/path/to/remote_works/scripts/mcp-server.mjs';
+  const mcpWorkingDirectory = '/absolute/path/to/remote_works';
+
+  const copyValue = async (value: string, label: string) => {
+    try {
+      await navigator.clipboard.writeText(value);
+      toast.success(t('mcp.fieldCopied', { field: label }));
+    } catch {
+      toast.error(t('mcp.copyFailed'));
+    }
+  };
+
+  const openSetup = (providerId: ProviderId) => {
+    setSelectedProvider(providerId);
+    setIsSetupOpen(true);
+    setIsOpen(false);
+  };
+
+  const setupFields: Record<
+    ProviderId,
+    Array<{ label: string; value: string }>
+  > = {
+    chatgpt: [
+      { label: t('mcp.fieldName'), value: mcpName },
+      { label: t('mcp.fieldDescription'), value: mcpDescription },
+      { label: t('mcp.fieldType'), value: 'Server URL / Streamable HTTP' },
+      { label: t('mcp.fieldServerUrl'), value: mcpServerUrl },
+      { label: t('mcp.fieldAuthentication'), value: 'Bearer token' },
+    ],
+    claude: [
+      { label: t('mcp.fieldName'), value: mcpName },
+      { label: t('mcp.fieldDescription'), value: mcpDescription },
+      { label: t('mcp.fieldType'), value: 'Remote / Streamable HTTP' },
+      { label: t('mcp.fieldServerUrl'), value: mcpServerUrl },
+      { label: t('mcp.fieldAuthentication'), value: 'Bearer token or OAuth' },
+    ],
+    codex: [
+      { label: t('mcp.fieldName'), value: mcpName },
+      { label: t('mcp.fieldType'), value: 'STDIO' },
+      { label: t('mcp.fieldCommand'), value: mcpCommand },
+      { label: t('mcp.fieldArguments'), value: mcpArguments },
+      { label: t('mcp.fieldWorkingDirectory'), value: mcpWorkingDirectory },
+      { label: t('mcp.fieldEnvironmentVariable'), value: 'NEXT_PUBLIC_FIREBASE_PROJECT_ID=<your-project-id>' },
+    ],
+    cursor: [
+      { label: t('mcp.fieldName'), value: mcpName },
+      { label: t('mcp.fieldType'), value: 'STDIO' },
+      { label: t('mcp.fieldCommand'), value: mcpCommand },
+      { label: t('mcp.fieldArguments'), value: mcpArguments },
+      { label: t('mcp.fieldWorkingDirectory'), value: mcpWorkingDirectory },
+    ],
+    vscode: [
+      { label: t('mcp.fieldName'), value: mcpName },
+      { label: t('mcp.fieldType'), value: 'STDIO' },
+      { label: t('mcp.fieldCommand'), value: mcpCommand },
+      { label: t('mcp.fieldArguments'), value: mcpArguments },
+      { label: t('mcp.fieldWorkingDirectory'), value: mcpWorkingDirectory },
+    ],
+  };
+
+  const localConfig = JSON.stringify(
+    {
+      mcpServers: {
+        'remote-works': {
+          command: mcpCommand,
+          args: [mcpArguments],
+          cwd: mcpWorkingDirectory,
+        },
+      },
+    },
+    null,
+    2
+  );
 
   useEffect(() => {
     const handlePointerDown = (event: MouseEvent) => {
@@ -90,26 +165,8 @@ export function McpConnectMenu({ className }: { className?: string }) {
     return () => document.removeEventListener('mousedown', handlePointerDown);
   }, []);
 
-  const copyConfig = async () => {
-    try {
-      await navigator.clipboard.writeText(MCP_CONFIG);
-      toast.success(t('mcp.configCopied'));
-    } catch {
-      toast.error(t('mcp.copyFailed'));
-    }
-  };
-
-  const downloadConfig = () => {
-    const blob = new Blob([MCP_CONFIG], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const anchor = document.createElement('a');
-    anchor.href = url;
-    anchor.download = 'remote-works-mcp.json';
-    anchor.click();
-    URL.revokeObjectURL(url);
-  };
-
   return (
+    <>
     <div ref={containerRef} className={cn('relative', className)}>
       <button
         type="button"
@@ -176,26 +233,123 @@ export function McpConnectMenu({ className }: { className?: string }) {
             ))}
           </div>
 
-          <div className="mt-2 pt-2 border-t border-[var(--glass-border)] grid grid-cols-2 gap-2">
+          <div className="mt-2 pt-2 border-t border-[var(--glass-border)]">
             <button
               type="button"
-              onClick={copyConfig}
-              className="flex items-center justify-center gap-1.5 px-2 py-2 rounded-xl text-xs font-semibold text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--glass-surface-strong)] transition-colors"
+              onClick={() => openSetup(selectedProvider)}
+              className="w-full flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-xs font-semibold text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--glass-surface-strong)] transition-colors"
             >
               <Copy size={14} />
-              {t('mcp.copyConfig')}
-            </button>
-            <button
-              type="button"
-              onClick={downloadConfig}
-              className="flex items-center justify-center gap-1.5 px-2 py-2 rounded-xl text-xs font-semibold text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--glass-surface-strong)] transition-colors"
-            >
-              <Download size={14} />
-              {t('mcp.downloadConfig')}
+              {t('mcp.openSetupGuide')}
             </button>
           </div>
         </div>
       )}
     </div>
+
+    <Modal
+      isOpen={isSetupOpen}
+      onClose={() => setIsSetupOpen(false)}
+      title={t('mcp.setupTitle')}
+      subtitle={t('mcp.setupSubtitle')}
+      size="xl"
+    >
+      <div className="space-y-5">
+        <div className="flex gap-2 overflow-x-auto pb-1" role="tablist">
+          {providers.map((provider) => (
+            <button
+              key={provider.id}
+              type="button"
+              role="tab"
+              aria-selected={selectedProvider === provider.id}
+              onClick={() => setSelectedProvider(provider.id as ProviderId)}
+              className={cn(
+                'shrink-0 px-3 py-2 rounded-xl text-xs font-semibold border transition-colors',
+                selectedProvider === provider.id
+                  ? 'border-[var(--accent-primary)] bg-[var(--accent-primary)]/15 text-[var(--accent-primary)]'
+                  : 'border-[var(--glass-border)] text-[var(--text-secondary)] hover:bg-[var(--glass-surface-strong)]'
+              )}
+            >
+              {provider.name}
+            </button>
+          ))}
+        </div>
+
+        {(['chatgpt', 'claude'].includes(selectedProvider)) && (
+          <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-xs text-amber-200">
+            {t('mcp.publicEndpointNotice')}
+          </div>
+        )}
+
+        <div className="space-y-2">
+          {setupFields[selectedProvider].map((field) => (
+            <div
+              key={field.label}
+              className="rounded-xl border border-[var(--glass-border)] bg-[var(--glass-surface)] p-3"
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <span className="block text-[11px] font-semibold text-[var(--text-muted)] uppercase">
+                    {field.label}
+                  </span>
+                  <code className="block mt-1 text-xs text-[var(--text-primary)] break-all">
+                    {field.value}
+                  </code>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => copyValue(field.value, field.label)}
+                  className="shrink-0 p-2 rounded-lg text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--glass-surface-strong)] transition-colors"
+                  aria-label={`${t('mcp.copyField')} ${field.label}`}
+                >
+                  <Copy size={15} />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {(['codex', 'cursor', 'vscode'].includes(selectedProvider)) && (
+          <div className="rounded-xl border border-[var(--glass-border)] p-3">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs font-semibold text-[var(--text-primary)]">
+                {t('mcp.completeConfig')}
+              </span>
+              <button
+                type="button"
+                onClick={() => copyValue(localConfig, t('mcp.completeConfig'))}
+                className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold border border-[var(--glass-border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+              >
+                <Copy size={14} />
+                {t('mcp.copyAll')}
+              </button>
+            </div>
+            <pre className="overflow-x-auto rounded-lg bg-black/30 p-3 text-[11px] text-[var(--text-primary)]">
+              {localConfig}
+            </pre>
+          </div>
+        )}
+
+        <button
+          type="button"
+          onClick={() => {
+            const provider = providers.find((item) => item.id === selectedProvider);
+            if (!provider) return;
+            if (selectedProvider === 'cursor') {
+              window.location.href = buildCursorInstallUrl();
+            } else if (selectedProvider === 'vscode') {
+              window.location.href = buildVscodeInstallUrl();
+            } else {
+              window.open(provider.url, '_blank', 'noopener,noreferrer');
+            }
+          }}
+          className="w-full h-10 inline-flex items-center justify-center gap-2 rounded-xl text-sm font-semibold border border-[var(--glass-border-strong)] text-[var(--text-primary)] hover:bg-[var(--glass-surface-strong)]"
+        >
+          <ExternalLink size={16} />
+          {providers.find((item) => item.id === selectedProvider)?.action}
+        </button>
+      </div>
+    </Modal>
+    </>
   );
 }
