@@ -160,6 +160,18 @@
     "infoStorage": "File Storage",
     "infoUI": "UI Design"
   },
+  "mcp": {
+    "connect": "Connect MCP",
+    "menuTitle": "Connect to AI",
+    "menuSubtitle": "Open an AI app and add the Remote Works MCP server.",
+    "copyConfig": "Copy Config",
+    "downloadConfig": "Download Config",
+    "configCopied": "MCP configuration copied.",
+    "copyFailed": "MCP configuration could not be copied.",
+    "settingsTitle": "MCP / AI Integration",
+    "settingsSubtitle": "Connect Claude, Cursor, ChatGPT, and other MCP clients.",
+    "manualHint": "For manual installation, run the server from the repository folder:"
+  },
   "pinSettings": {
     "modalTitleEdit": "Change Dashboard Security PIN",
     "modalTitleCreate": "Create Dashboard Security PIN",

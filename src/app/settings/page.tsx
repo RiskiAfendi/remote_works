@@ -12,6 +12,7 @@ import {
   CheckCircle2,
   RefreshCw,
   Info,
+  PlugZap,
 } from 'lucide-react';
 import { useI18n } from '@/context/I18nContext';
 import { useTheme } from '@/context/ThemeContext';
@@ -19,6 +20,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/Button';
 import { PinSettingsModal } from '@/features/auth/PinSettingsModal';
 import { useToast } from '@/components/ui/Toast';
+import { McpConnectMenu } from '@/components/features/McpConnectMenu';
 
 export default function SettingsPage() {
   const { t, locale, setLocale } = useI18n();
@@ -200,7 +202,36 @@ export default function SettingsPage() {
         </div>
       </section>
 
-      {/* 3. Informasi Sistem Aplikasi */}
+      {/* 3. Integrasi MCP / AI */}
+      <section className="solid-card p-6 md:p-8 space-y-6">
+        <div className="flex items-center justify-between border-b border-[var(--glass-border)] pb-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-violet-500/15 text-violet-400 flex items-center justify-center border border-violet-500/30">
+              <PlugZap size={22} />
+            </div>
+            <div>
+              <h2 className="font-heading text-lg font-bold text-[var(--text-primary)]">
+                {t('mcp.settingsTitle')}
+              </h2>
+              <p className="text-xs text-[var(--text-secondary)]">
+                {t('mcp.settingsSubtitle')}
+              </p>
+            </div>
+          </div>
+          <McpConnectMenu />
+        </div>
+
+        <div className="rounded-2xl glass-panel p-4 space-y-3">
+          <p className="text-xs text-[var(--text-secondary)]">
+            {t('mcp.manualHint')}
+          </p>
+          <code className="block overflow-x-auto rounded-xl bg-black/30 border border-[var(--glass-border)] p-3 text-[11px] text-[var(--text-primary)]">
+            npm run mcp
+          </code>
+        </div>
+      </section>
+
+      {/* 4. Informasi Sistem Aplikasi */}
       <section className="solid-card p-6 md:p-8 space-y-4">
         <div className="flex items-center gap-3 border-b border-[var(--glass-border)] pb-4">
           <Info size={20} className="text-[var(--text-muted)]" />

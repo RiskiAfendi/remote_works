@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "remote-works": {
+      "command": "npm",
+      "args": ["run", "mcp"],
+      "env": {
+        "FIREBASE_PROJECT_ID": "${NEXT_PUBLIC_FIREBASE_PROJECT_ID}",
+        "FIREBASE_API_KEY": "${NEXT_PUBLIC_FIREBASE_API_KEY}"
+      }
+    }
+  }
+}

@@ -6,6 +6,7 @@ import { useTheme } from '@/context/ThemeContext';
 import { useI18n } from '@/context/I18nContext';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/Button';
+import { McpConnectMenu } from '@/components/features/McpConnectMenu';
 
 interface NavbarProps {
   onToggleSidebar: () => void;
@@ -68,6 +69,7 @@ export default function Navbar({
 
       {/* Kanan: Quick Actions, Shortcuts, Lock, Toggle Bahasa & Tema */}
       <div className="flex items-center gap-1.5 sm:gap-2">
+        <McpConnectMenu />
         {/* Quick Add Button */}
         {onOpenNewApplicationModal && (
           <Button

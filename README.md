@@ -76,6 +76,22 @@ remote_works/
 
 ---
 
+## Koneksi MCP untuk AI
+
+Remote Works menyediakan server MCP lokal untuk mengelola data Firestore langsung dari Claude Desktop, Cursor, GPT-compatible MCP clients, atau AI lainnya.
+
+Fitur MCP:
+- Melihat dan mencari seluruh lamaran kerja beserta statusnya.
+- Membuat satu atau banyak lamaran secara bulk.
+- Memperbarui dan menghapus lamaran.
+- Melihat, menambah, memperbarui, dan menghapus job source.
+- Melihat dan menambah job directories/agregator.
+- Melihat ringkasan jumlah lamaran, job source, dan job directory.
+
+Konfigurasi lengkap tersedia di [docs/MCP_SETUP.md](docs/MCP_SETUP.md). Mulai mode stdio dengan `npm run mcp` dan mode HTTP lokal dengan `npm run mcp:http`.
+
+---
+
 ## 🚀 Panduan Memulai (Getting Started)
 
 ### Prerequisites

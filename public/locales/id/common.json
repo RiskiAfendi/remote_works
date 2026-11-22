@@ -160,6 +160,18 @@
     "infoStorage": "File Storage",
     "infoUI": "Desain UI"
   },
+  "mcp": {
+    "connect": "Hubungkan MCP",
+    "menuTitle": "Hubungkan ke AI",
+    "menuSubtitle": "Buka aplikasi AI dan tambahkan server MCP Remote Works.",
+    "copyConfig": "Salin Config",
+    "downloadConfig": "Unduh Config",
+    "configCopied": "Konfigurasi MCP berhasil disalin.",
+    "copyFailed": "Konfigurasi gagal disalin.",
+    "settingsTitle": "Integrasi MCP / AI",
+    "settingsSubtitle": "Hubungkan Claude, Cursor, ChatGPT, dan klien MCP lainnya.",
+    "manualHint": "Untuk instalasi manual, jalankan server dari folder repository:"
+  },
   "pinSettings": {
     "modalTitleEdit": "Ubah PIN Keamanan Dashboard",
     "modalTitleCreate": "Buat PIN Keamanan Dashboard",

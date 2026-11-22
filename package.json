@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "node scripts/test-job-directories.mjs"
+    "test": "node scripts/test-job-directories.mjs && node scripts/test-mcp.mjs",
+    "mcp": "node scripts/mcp-server.mjs",
+    "mcp:http": "node scripts/mcp-server.mjs --http"
   },
   "dependencies": {
     "clsx": "^2.1.1",
