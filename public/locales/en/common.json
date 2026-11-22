@@ -180,6 +180,7 @@
     "fieldArguments": "Arguments",
     "fieldWorkingDirectory": "Working Directory",
     "fieldEnvironmentVariable": "Environment Variable",
+    "notConfigured": "Not configured",
     "publicEndpointNotice": "ChatGPT and Claude web require a publicly accessible HTTPS Server URL and authentication. The local MCP server is not sufficient for direct web connections.",
     "configCopied": "MCP configuration copied.",
     "copyFailed": "MCP configuration could not be copied.",

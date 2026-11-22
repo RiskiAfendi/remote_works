@@ -76,7 +76,9 @@ export function McpConnectMenu({ className }: { className?: string }) {
   const [selectedProvider, setSelectedProvider] = useState<ProviderId>('chatgpt');
   const containerRef = useRef<HTMLDivElement>(null);
   const mcpServerUrl =
-    process.env.NEXT_PUBLIC_MCP_SERVER_URL?.trim() || 'https://example.com/mcp';
+    process.env.NEXT_PUBLIC_MCP_SERVER_URL?.trim() || '';
+  const configuredServerUrl =
+    mcpServerUrl || t('mcp.notConfigured');
   const mcpName = 'remote-works';
   const mcpDescription =
     'Manage job applications, job sources, and job directories in Remote Works.';
@@ -107,14 +109,14 @@ export function McpConnectMenu({ className }: { className?: string }) {
       { label: t('mcp.fieldName'), value: mcpName },
       { label: t('mcp.fieldDescription'), value: mcpDescription },
       { label: t('mcp.fieldType'), value: 'Server URL / Streamable HTTP' },
-      { label: t('mcp.fieldServerUrl'), value: mcpServerUrl },
+      { label: t('mcp.fieldServerUrl'), value: configuredServerUrl },
       { label: t('mcp.fieldAuthentication'), value: 'Bearer token' },
     ],
     claude: [
       { label: t('mcp.fieldName'), value: mcpName },
       { label: t('mcp.fieldDescription'), value: mcpDescription },
       { label: t('mcp.fieldType'), value: 'Remote / Streamable HTTP' },
-      { label: t('mcp.fieldServerUrl'), value: mcpServerUrl },
+      { label: t('mcp.fieldServerUrl'), value: configuredServerUrl },
       { label: t('mcp.fieldAuthentication'), value: 'Bearer token or OAuth' },
     ],
     codex: [
@@ -299,6 +301,10 @@ export function McpConnectMenu({ className }: { className?: string }) {
                 <button
                   type="button"
                   onClick={() => copyValue(field.value, field.label)}
+                  disabled={
+                    field.label === t('mcp.fieldServerUrl') &&
+                    !mcpServerUrl
+                  }
                   className="shrink-0 p-2 rounded-lg text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--glass-surface-strong)] transition-colors"
                   aria-label={`${t('mcp.copyField')} ${field.label}`}
                 >

@@ -180,6 +180,7 @@
     "fieldArguments": "Arguments",
     "fieldWorkingDirectory": "Working Directory",
     "fieldEnvironmentVariable": "Environment Variable",
+    "notConfigured": "Belum dikonfigurasi",
     "publicEndpointNotice": "ChatGPT dan Claude web membutuhkan Server URL HTTPS yang dapat diakses publik serta autentikasi. Server MCP lokal saat ini belum cukup untuk koneksi web langsung.",
     "configCopied": "Konfigurasi MCP berhasil disalin.",
     "copyFailed": "Konfigurasi gagal disalin.",
