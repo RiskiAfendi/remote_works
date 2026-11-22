@@ -30,24 +30,49 @@ const providers = [
   {
     id: 'chatgpt',
     name: 'ChatGPT',
-    url: 'https://help.openai.com/en/articles/11487775-connectors-in-chatgpt',
+    url: 'https://chatgpt.com/#settings/Plugins',
+    action: 'Open Plugins',
   },
   {
     id: 'claude',
     name: 'Claude',
     url: 'https://claude.ai/settings/connectors',
+    action: 'Open Connectors',
   },
   {
     id: 'cursor',
     name: 'Cursor',
-    url: 'https://cursor.com/docs/context/mcp',
+    url: 'cursor://anysphere.cursor-deeplink/mcp/install',
+    action: 'Install MCP',
   },
   {
     id: 'vscode',
     name: 'VS Code Copilot',
-    url: 'https://code.visualstudio.com/docs/copilot/customization/mcp-servers',
+    url: 'vscode:mcp/install',
+    action: 'Install MCP',
   },
 ];
+
+function buildCursorInstallUrl() {
+  const config = window.btoa(
+    JSON.stringify({
+      command: 'node',
+      args: ['/absolute/path/to/remote_works/scripts/mcp-server.mjs'],
+    })
+  );
+  return `cursor://anysphere.cursor-deeplink/mcp/install?name=remote-works&config=${config}`;
+}
+
+function buildVscodeInstallUrl() {
+  const config = encodeURIComponent(
+    JSON.stringify({
+      name: 'remote-works',
+      command: 'node',
+      args: ['/absolute/path/to/remote_works/scripts/mcp-server.mjs'],
+    })
+  );
+  return `vscode:mcp/install?${config}`;
+}
 
 export function McpConnectMenu({ className }: { className?: string }) {
   const { t } = useI18n();
@@ -126,12 +151,26 @@ export function McpConnectMenu({ className }: { className?: string }) {
                 key={provider.id}
                 role="menuitem"
                 href={provider.url}
-                target="_blank"
-                rel="noreferrer"
-                onClick={() => setIsOpen(false)}
+                target={provider.id === 'chatgpt' || provider.id === 'claude' ? '_blank' : undefined}
+                rel={provider.id === 'chatgpt' || provider.id === 'claude' ? 'noreferrer' : undefined}
+                onClick={(event) => {
+                  if (provider.id === 'cursor') {
+                    event.preventDefault();
+                    window.location.href = buildCursorInstallUrl();
+                  } else if (provider.id === 'vscode') {
+                    event.preventDefault();
+                    window.location.href = buildVscodeInstallUrl();
+                  }
+                  setIsOpen(false);
+                }}
                 className="flex items-center justify-between px-3 py-2.5 rounded-xl text-sm text-[var(--text-primary)] hover:bg-[var(--glass-surface-strong)] transition-colors"
               >
-                <span className="font-semibold">{provider.name}</span>
+                <div>
+                  <span className="font-semibold block">{provider.name}</span>
+                  <span className="text-[10px] text-[var(--text-muted)]">
+                    {provider.action}
+                  </span>
+                </div>
                 <ExternalLink size={14} className="text-[var(--text-muted)]" />
               </a>
             ))}
